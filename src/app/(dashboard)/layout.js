@@ -1,8 +1,8 @@
 // 'use client';
 import { Suspense } from 'react';
+import { MenuLeft } from '../components/MenuLeft';
+import { Navbar } from '../components/Navbar';
 import '../globals.css';
-import { MenuLeft } from './components/MenuLeft';
-import { Navbar } from './components/Navbar';
 
 export default function DashboardLayout({ children, session }) {
   return (
@@ -14,9 +14,7 @@ export default function DashboardLayout({ children, session }) {
         <div className="flex-none">
           <MenuLeft />
         </div>
-        <div className="grow">
-          {children}
-        </div>
+        <div className="grow">{children}</div>
       </div>
     </body>
   );
