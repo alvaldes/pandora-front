@@ -1,4 +1,5 @@
 'use client';
+import ThemeToggle from '@/app/components/ThemeToggle';
 import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -28,7 +29,10 @@ const LoginPage = () => {
 
   return (
     <section className="bg-base-300 min-h-screen">
-      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+      <div className="flex">
+        <ThemeToggle properties="absolute top-2 right-5 h-14 w-14"></ThemeToggle>
+      </div>
+      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 text-primary-content">
         <Link
           href="/inicio"
           className="flex items-center mb-6 text-2xl font-semibold"
@@ -95,7 +99,7 @@ const LoginPage = () => {
                   Iniciar Sesión
                 </button>
               </div>
-              <p className="text-center text-sm font-light text-gray-500 dark:text-gray-400">
+              <p className="text-center text-sm font-light text-primary-content text-opacity-50">
                 En caso de problemas contacte a:{' '}
                 <a
                   href="#"
