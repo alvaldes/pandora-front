@@ -20,7 +20,7 @@ export default function Home() {
   };
 
   return (
-    <main className="container mx-auto flex min-h-screen flex-col items-center justify-between p-24">
+    <main className="container mx-auto flex flex-col items-center justify-between">
       <div className="alert alert-success">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -36,22 +36,6 @@ export default function Home() {
           />
         </svg>
         <span>Bienvenido, esta es la página de inicio!</span>
-      </div>
-      <div className="flex gap-8">
-        <Link className="btn btn-primary" href={'/auth/login'}>
-          Iniciar Sesión
-        </Link>
-        {true ? (
-          <>
-            <button className="btn btn-error" onClick={logout}>
-              Cerrar Sesión
-            </button>
-          </>
-        ) : (
-          <Link className="btn btn-primary" href={'/auth/login'}>
-            Iniciar Sesión
-          </Link>
-        )}
       </div>
     </main>
   );

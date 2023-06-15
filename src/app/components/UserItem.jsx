@@ -2,10 +2,13 @@
 import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
+import { themeChange } from 'theme-change';
 
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 export const UserItem = ({ className }) => {
+  const [isDarkTheme, setIsDarkTheme] = useState(true);
   const router = useRouter();
 
   const getProfile = async () => {
@@ -20,6 +23,12 @@ export const UserItem = ({ className }) => {
       router.push('/');
     }
   };
+
+  useEffect(() => {
+    const storeTheme = localStorage.getItem('theme');
+    themeChange(false);
+    setIsDarkTheme(storeTheme == 'dark');
+  }, []);
 
   return (
     <div className={className}>
@@ -46,6 +55,19 @@ export const UserItem = ({ className }) => {
         </li>
         <li>
           <Link href="">Ajustes</Link>
+        </li>
+        <li>
+          <label className="label cursor-pointer">
+            <span className="">Tema Oscuro</span>
+            <input
+              type="checkbox"
+              className="toggle toggle-sm"
+              data-toggle-theme="dark,cupcake"
+              data-act-class="ACTIVECLASS"
+              onChange={() => setIsDarkTheme((prev) => !prev)}
+              checked={isDarkTheme}
+            />
+          </label>
         </li>
         <li>
           <button onClick={logout}>Cerrar Sesión</button>

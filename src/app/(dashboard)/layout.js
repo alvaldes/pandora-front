@@ -6,7 +6,7 @@ import '../globals.css';
 
 export default function DashboardLayout({ children, session }) {
   return (
-    <body classNameName="bg-base-300 min-h-screen">
+    <section className="bg-base-200 min-h-screen text-base-content">
       <header>
         <Navbar />
       </header>
@@ -14,8 +14,8 @@ export default function DashboardLayout({ children, session }) {
         <div className="flex-none">
           <MenuLeft />
         </div>
-        <div className="grow">{children}</div>
+        <div className="grow px-24">{children}</div>
       </div>
-    </body>
+    </section>
   );
 }

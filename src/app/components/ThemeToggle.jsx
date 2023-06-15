@@ -6,7 +6,9 @@ const ThemeToggle = ({ properties, children }) => {
   const [isDarkTheme, setIsDarkTheme] = useState(true);
 
   useEffect(() => {
+    const storeTheme = localStorage.getItem('theme');
     themeChange(false);
+    setIsDarkTheme(storeTheme == 'dark');
   }, []);
 
   return (
@@ -17,7 +19,7 @@ const ThemeToggle = ({ properties, children }) => {
         data-toggle-theme="dark,cupcake"
         data-act-class="ACTIVECLASS"
         onChange={() => setIsDarkTheme((prev) => !prev)}
-        checked={isDarkTheme}
+        checked={!isDarkTheme}
       />
 
       {/* sun icon */}
@@ -31,7 +33,7 @@ const ThemeToggle = ({ properties, children }) => {
 
       {/* moon icon */}
       <svg
-        className="swap-on fill-current w-10 h-10 text-purple-300"
+        className="swap-on fill-current w-10 h-10 text-purple-800"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
       >
