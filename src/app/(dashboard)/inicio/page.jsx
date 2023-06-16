@@ -20,7 +20,7 @@ export default function Home() {
   };
 
   return (
-    <main className="container mx-auto flex flex-col items-center justify-between">
+    <main className="container mx-auto flex flex-col">
       <div className="alert alert-success">
         <svg
           xmlns="http://www.w3.org/2000/svg"

@@ -5,7 +5,6 @@ import { NextResponse } from 'next/server';
 
 export async function POST(req) {
   const { username, password } = await req.json();
-  console.log({ username });
   const result = await axios.post(process.env.PANDORA_API + '/auth/login', {
     username: username,
     password: password,
@@ -13,9 +12,7 @@ export async function POST(req) {
   if (result.status == HttpStatusCode.Ok) {
     const token = result.data.accessToken;
     const decodedToken = jwtDecode(token);
-    console.log({ decodedToken });
     const expirationDate = new Date(decodedToken.exp * 1000);
-    console.log({ expirationDate });
     const serialized = serialize('pandoraToken', token, {
       httpOnly: true,
       expires: expirationDate,

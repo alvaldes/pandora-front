@@ -32,13 +32,16 @@ export const UserItem = ({ className }) => {
 
   return (
     <div className={className}>
-      <label tabindex="0" className="btn btn-ghost btn-circle avatar">
+      <label
+        tabindex="0"
+        className="btn btn-ghost btn-circle avatar ring ring-primary ring-offset-base-100 ring-offset-0"
+      >
         <div className="w-10 rounded-full">
           <Image
             className="object-cover"
             width={100}
             height={100}
-            src="/pandora.png"
+            src="/profile.png"
             alt="user-logo"
           />
         </div>
@@ -69,10 +72,10 @@ export const UserItem = ({ className }) => {
             />
           </label>
         </li>
-        <li>
-          <button onClick={logout}>Cerrar Sesión</button>
-        </li>
-        {/*<li><Link href={'/auth/login'}>Iniciar Sesión</Link></li>*/}
+        <li className="h-0.5"></li>
+        <button onClick={logout} className="btn btn-outline btn-sm btn-error">
+          Cerrar Sesión
+        </button>
       </ul>
     </div>
   );

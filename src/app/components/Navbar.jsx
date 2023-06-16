@@ -1,26 +1,18 @@
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
 import { UserItem } from './UserItem';
 
-export const Navbar = () => {
-  const [isSideMenu, setIsSideMenu] = useState();
-
-  const updateSideMenu = () => {
-    setIsSideMenu(!document.getElementById('my-drawer-2').checked);
-  };
-
+export const Navbar = ({ isSidebarOpen, toggleSidebar }) => {
   return (
     <div className="navbar text-base-content bg-base-300 px-4">
       <div className="drawer-content flex flex-col items-center justify-center h-8 w-8">
-        <label
-          htmlFor="my-drawer-2"
+        <button
           className="btn btn-ghost btn-circle drawer-button lg:swap lg:swap-rotate"
-          onClick={updateSideMenu}
+          onClick={toggleSidebar}
         >
           {/* this hidden checkbox controls the state */}
-          <input type="checkbox" checked={isSideMenu} className="hidden" />
+          <input type="checkbox" checked={isSidebarOpen} className="hidden" />
 
           {/* hamburger icon */}
           <svg
@@ -46,7 +38,7 @@ export const Navbar = () => {
           >
             <polygon points="400 145.49 366.51 112 256 222.51 145.49 112 112 145.49 222.51 256 112 366.51 145.49 400 256 289.49 366.51 400 400 366.51 289.49 256 400 145.49" />
           </svg>
-        </label>
+        </button>
       </div>
       <div className="flex-1">
         <Link href={'/'} className="pl-7 text-xl font-light flex self-center">
