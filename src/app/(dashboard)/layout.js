@@ -6,7 +6,7 @@ import { Sidebar } from '../components/Sidebar';
 import '../globals.css';
 
 export default function DashboardLayout({ children, session }) {
-  const [isSidebarOpen, setIsSidebarOpen] = useState();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
