@@ -3,6 +3,7 @@ import { SwipeableEdge } from '@/app/components/SwipeableEdge';
 import { TableHome } from '@/app/components/TableHome';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { LuRefreshCw } from 'react-icons/lu';
 
 export default function Home() {
@@ -25,6 +26,12 @@ export default function Home() {
     "Name": "Diana Perez Armayor",
     "DepartamentHR": "Fac. Ing. Industrial",
   }]
+
+  const facultyActive='prueba 1';
+  const departmentActive='prueba 1';
+
+  const [selects, setSelects] = useState({faculty:facultyActive, department:departmentActive, checked: true, personName: "", id: ""}) 
+  const selectUpdate = ({name, value}) => {setSelects({name: value});}
 
   return (
     <main className="container mx-auto flex flex-col">
@@ -61,7 +68,7 @@ export default function Home() {
         </svg>
         <span>Bienvenido, esta es la página de inicio!</span>
       </div>
-      <SwipeableEdge />
+      <SwipeableEdge selectActive={selects} facultyList={['prueba 1', 'prueba 2', 'prueba 3']} departmentList={['prueba 1', 'prueba 2', 'prueba 3']} selectOnChange={selectUpdate} />
     </main>
   );
 }
