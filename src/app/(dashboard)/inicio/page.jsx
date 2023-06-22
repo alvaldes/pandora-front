@@ -20,25 +20,44 @@ export default function Home() {
       router.push('/');
     }
   };*/
-  const prueba = [{
-    "IDPerson": 3733,
-    "CI": "82052607258",
-    "Name": "Diana Perez Armayor",
-    "DepartamentHR": "Fac. Ing. Industrial",
-  }]
+  const prueba = [
+    {
+      IDPerson: 3733,
+      CI: '82052607258',
+      Name: 'Diana Perez Armayor',
+      DepartamentHR: 'Fac. Ing. Industrial',
+    },
+  ];
 
-  const facultyActive='prueba 1';
-  const departmentActive='prueba 1';
+  const facultyActive = 'prueba 1';
+  const departmentActive = 'prueba 1';
 
-  const [selects, setSelects] = useState({faculty:facultyActive, department:departmentActive, checked: true, personName: "", id: ""}) 
-  const selectUpdate = ({name, value}) => {setSelects({name: value});}
+  const [selects, setSelects] = useState({
+    faculty: facultyActive,
+    department: departmentActive,
+    checked: true,
+    personName: '',
+    id: '',
+  });
+  const selectUpdate = ({ name, value }) => {
+    setSelects({ name: value });
+  };
 
   return (
     <main className="container mx-auto flex flex-col">
       <div className={`flex`}>
-        <div className={`ml-auto drawer-content flex flex-row items-center justify-end py-2`}>
-          <p className="text-green-500 mr-4">Última actualizacion: <span>{`12:00`}</span></p>
-          <button className={`btn btn-ghost btn-circle drawer-button lg:swap lg:swap-rotate text-xl btn-sm`} onClick={()=>{console.log("Update...")}}>
+        <div
+          className={`ml-auto drawer-content flex flex-row items-center justify-end py-2`}
+        >
+          <p className="text-green-500 mr-4">
+            Última actualizacion: <span>{`12:00`}</span>
+          </p>
+          <button
+            className={`btn btn-ghost btn-circle drawer-button lg:swap lg:swap-rotate text-xl btn-sm`}
+            onClick={() => {
+              console.log('Update...');
+            }}
+          >
             <LuRefreshCw />
           </button>
         </div>
@@ -48,7 +67,7 @@ export default function Home() {
         <h1 className="text-xl">Personal del Departamento Seleccionado</h1>
         <TableHome data={prueba} />
       </div>
-      <div className="w-full py-4">
+      <div className="w-full py-8">
         <h1 className="text-xl">Colaboradores del Departamento Seleccionado</h1>
         <TableHome data={prueba} />
       </div>
@@ -68,7 +87,12 @@ export default function Home() {
         </svg>
         <span>Bienvenido, esta es la página de inicio!</span>
       </div>
-      <SwipeableEdge selectActive={selects} facultyList={['prueba 1', 'prueba 2', 'prueba 3']} departmentList={['prueba 1', 'prueba 2', 'prueba 3']} selectOnChange={selectUpdate} />
+      <SwipeableEdge
+        selectActive={selects}
+        facultyList={['prueba 1', 'prueba 2', 'prueba 3']}
+        departmentList={['prueba 1', 'prueba 2', 'prueba 3']}
+        selectOnChange={selectUpdate}
+      />
     </main>
   );
 }
