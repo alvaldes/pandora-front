@@ -1,10 +1,10 @@
-'use client';
-import { SwipeableEdge } from '@/app/components/SwipeableEdge';
-import { TableHome } from '@/app/components/TableHome';
-import axios from 'axios';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import { LuRefreshCw } from 'react-icons/lu';
+"use client";
+//import { SwipeableEdge } from "@/app/components/SwipeableEdge";
+import { TableHome } from "@/app/components/TableHome";
+import axios from "axios";
+//import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { LuRefreshCw } from "react-icons/lu";
 
 export default function Home() {
   //const router = useRouter();
@@ -23,24 +23,37 @@ export default function Home() {
   const prueba = [
     {
       IDPerson: 3733,
-      CI: '82052607258',
-      Name: 'Diana Perez Armayor',
-      DepartamentHR: 'Fac. Ing. Industrial',
+      CI: "82052607258",
+      Name: "Diana Perez Armayor",
+      DepartamentHR: "Fac. Ing. Industrial",
     },
   ];
 
-  const facultyActive = 'prueba 1';
-  const departmentActive = 'prueba 1';
+  /*const facultyActive = "prueba 1";
+  const departmentActive = "prueba 1";
 
   const [selects, setSelects] = useState({
     faculty: facultyActive,
     department: departmentActive,
     checked: true,
-    personName: '',
-    id: '',
+    personName: "",
+    id: "",
   });
   const selectUpdate = ({ name, value }) => {
     setSelects({ name: value });
+  };*/
+
+  const [lastUpdate, setLastUpdate] = useState(Date.now());
+  const [effect, setEffect] = useState(false);
+
+  const uptLastUpdate = () => {
+    setEffect(true);
+    setLastUpdate(Date.now());
+    setEffect(false);
+  };
+  const date = () => {
+    const value = Date(lastUpdate).split(" ");
+    return `${value[2]}/${value[1]}/${value[3]} (${value[4]})`;
   };
 
   return (
@@ -50,13 +63,13 @@ export default function Home() {
           className={`ml-auto drawer-content flex flex-row items-center justify-end py-2`}
         >
           <p className="text-green-500 mr-4">
-            Última actualizacion: <span>{`12:00`}</span>
+            Última actualizacion: <span>{date()}</span>
           </p>
           <button
-            className={`btn btn-ghost btn-circle drawer-button lg:swap lg:swap-rotate text-xl btn-sm`}
-            onClick={() => {
-              console.log('Update...');
-            }}
+            className={`${
+              effect && "animate-spin"
+            } btn btn-ghost btn-circle drawer-button lg:swap lg:swap-rotate text-xl btn-sm`}
+            onClick={uptLastUpdate}
           >
             <LuRefreshCw />
           </button>
@@ -87,12 +100,6 @@ export default function Home() {
         </svg>
         <span>Bienvenido, esta es la página de inicio!</span>
       </div>
-      <SwipeableEdge
-        selectActive={selects}
-        facultyList={['prueba 1', 'prueba 2', 'prueba 3']}
-        departmentList={['prueba 1', 'prueba 2', 'prueba 3']}
-        selectOnChange={selectUpdate}
-      />
     </main>
   );
 }

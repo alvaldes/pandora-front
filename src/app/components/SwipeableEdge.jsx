@@ -1,65 +1,76 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+//import { useState } from "react";
+import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 
 export const SwipeableEdge = ({
   selectActive,
   selectOnChange,
   facultyList,
   departmentList,
+  isDrawerOpen,
+  toggleDrawer,
 }) => {
-  /* drawer component */
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
-  const toggleDrawer = () => {
-    setIsDrawerOpen(!isDrawerOpen);
-  };
   return (
     <div
       id="drawer-swipe"
-      className={`fixed lg:h-[calc(85vh)] overflow-y-auto bg-base-100 top-20 right-0 p-4 pl-0 transition-transform border-t border-gray-200 rounded-t-lg dark:border-gray-700 flex flex-row ${
-        isDrawerOpen ? 'translate-x-0 right-0' : 'translate-x-full right-[30px]'
+      className={`fixed z-9 lg:h-[calc(85vh)] overflow-y-auto lg:top-20 right-0 p-4 pl-0 transition-transform rounded-t-lg flex flex-row ${
+        isDrawerOpen
+          ? "translate-x-0 right-0 bg-base-100 border-t border-gray-200 top-20"
+          : "translate-x-full right-[30px] h-[60px] top-1/2"
       }`}
-      tabindex="-1"
+      tabIndex={-1}
       aria-labelledby="drawer-swipe-label"
     >
-      <button
-        class="relative hover:bg-gray-50 dark:hover:bg-gray-700 w-[30px] -my-4 mr-2"
-        onClick={toggleDrawer}
-        type="button"
-        data-drawer-target="drawer-swipe"
-        data-drawer-show="drawer-swipe"
-        data-drawer-placement="right"
-        data-drawer-edge="true"
-        data-drawer-edge-offset="right-[30px]"
-        aria-controls="drawer-swipe"
-      >
-        <span className="absolute w-8 h-1 -translate-y-1/2 bg-gray-300 rounded-lg left-0 top-1/2 dark:bg-gray-600 -rotate-90"></span>
-      </button>
+      <div>
+        <button
+          className={`relative hover:bg-base-300 mr-2 ${
+            isDrawerOpen
+              ? "h-full w-[30px] -my-4"
+              : "w-[60px] h-[60px] -translate-y-1/2 left-0 top-1/2 border-2 border-primary-content hover:border-primary hover:text-primary rounded-full px-1"
+          }`}
+          onClick={toggleDrawer}
+          type="button"
+          data-drawer-target="drawer-swipe"
+          data-drawer-show="drawer-swipe"
+          data-drawer-placement="right"
+          data-drawer-edge="true"
+          data-drawer-edge-offset="right-[30px]"
+          aria-controls="drawer-swipe"
+          data-drawer-backdrop="true"
+        >
+          {/*<span className="absolute w-8 h-1 -translate-y-1/2 bg-gray-300 rounded-lg left-0 top-1/2 dark:bg-gray-600 -rotate-90"></span>*/}
+          {isDrawerOpen ? (
+            <LuChevronRight className="w-[25px] h-[25px]" />
+          ) : (
+            <LuChevronLeft className="w-[25px] h-[25px]" />
+          )}
+        </button>
+      </div>
       <div className="flex flex-col gap-4">
         <div className="h-max">
-          <h1 className="text-xl">
+          <h1 className="text-lg">
             Datos del Departamento con el que se va a Trabajar
           </h1>
           <div className="form-control w-full max-w-lg">
             <label className="label">
-              <span className="label-text">Facultad:</span>
+              <span className="label-text text-base text-sm">Facultad:</span>
             </label>
             {facultyList ? (
               <select
-                className="select select-bordered"
+                className="select select-bordered text-sm"
                 value={selectActive.faculty}
                 onChange={selectOnChange}
                 name="faculty"
               >
                 {facultyList.map((val, index) => (
-                  <option key={index} value={val}>
+                  <option key={index} value={val} className="text-sm">
                     {val}
                   </option>
                 ))}
               </select>
             ) : (
-              <p className="inline-block align-middle indent-[5px] uppercase">
+              <p className="inline-block align-middle indent-[5px] text-sm">
                 {selectActive.faculty}
               </p>
             )}
@@ -67,23 +78,25 @@ export const SwipeableEdge = ({
 
           <div className="form-control w-full max-w-lg">
             <label className="label">
-              <span className="label-text">Departamento:</span>
+              <span className="label-text text-base text-sm">
+                Departamento:
+              </span>
             </label>
             {departmentList ? (
               <select
-                className="select select-bordered"
+                className="select select-bordered text-sm"
                 value={selectActive.department}
                 onChange={selectOnChange}
                 name="department"
               >
                 {departmentList.map((val, index) => (
-                  <option key={index} value={val}>
+                  <option key={index} value={val} className="text-sm">
                     {val}
                   </option>
                 ))}
               </select>
             ) : (
-              <p className="inline-block align-middle indent-[5px] uppercase">
+              <p className="inline-block align-middle indent-[5px] text-sm">
                 {selectActive.department}
               </p>
             )}
@@ -91,20 +104,22 @@ export const SwipeableEdge = ({
         </div>
 
         <div className="p-4 relative">
-          <span className="absolute w-full h-1 -translate-x-1/2 left-1/2 bg-gray-300 rounded-lg dark:bg-gray-600"></span>
+          <span className="absolute w-full h-[1px] -translate-x-1/2 left-1/2 bg-gray-300 rounded-lg"></span>
         </div>
 
         <div className="h-max">
-          <h1 className="text-xl">Plantilla del Departamento Seleccionado</h1>
-          <h2 className="text-md">Filtrar por:</h2>
+          <h1 className="text-lg">Plantilla del Departamento Seleccionado</h1>
+          <h2 className="text-base">Filtrar por:</h2>
           <div className="form-control w-full max-w-lg">
             <label className="label">
-              <span className="label-text">Identificación:</span>
+              <span className="label-text text-base text-sm">
+                Identificación:
+              </span>
             </label>
             <input
               type="text"
               placeholder="Type here"
-              className="input input-bordered w-full max-w-lg"
+              className="input input-bordered w-full max-w-lg text-sm"
               value={selectActive.id}
               name="id"
               onChange={selectOnChange}
@@ -113,12 +128,12 @@ export const SwipeableEdge = ({
 
           <div className="form-control w-full max-w-lg">
             <label className="label">
-              <span className="label-text">Nombre:</span>
+              <span className="label-text text-base text-sm">Nombre:</span>
             </label>
             <input
               type="text"
               placeholder="Type here"
-              className="input input-bordered w-full max-w-lg"
+              className="input input-bordered w-full max-w-lg text-sm"
               value={selectActive.personName}
               name="personName"
               onChange={selectOnChange}
@@ -126,18 +141,20 @@ export const SwipeableEdge = ({
           </div>
 
           <div className="form-control">
-            <label className="label cursor-pointer">
-              <span className="label-text">Ver personal activo</span>
+            <label className="label cursor-pointer w-fit">
               <input
                 type="checkbox"
                 checked={selectActive.checked}
-                className="checkbox checkbox-primary"
+                className="checkbox checkbox-accent checkbox-sm"
                 name="checked"
                 onChange={selectOnChange}
               />
+              <span className="label-text text-base text-base text-sm pl-3">
+                Ver personal activo
+              </span>
             </label>
           </div>
-          <button className="btn btn-block">Buscar</button>
+          <button className="btn btn-primary btn-block">Buscar</button>
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 'use client';
-import { Suspense, useState } from 'react';
-import { MenuLeft } from '../components/MenuLeft';
+import { useState } from 'react';
+//import { MenuLeft } from '../components/MenuLeft';
 import { Navbar } from '../components/Navbar';
 import { Sidebar } from '../components/Sidebar';
 import '../globals.css';

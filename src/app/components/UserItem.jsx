@@ -33,7 +33,7 @@ export const UserItem = ({ className }) => {
   return (
     <div className={className}>
       <label
-        tabindex="0"
+        tabIndex={0}
         className="btn btn-ghost btn-circle avatar ring ring-primary ring-offset-base-100 ring-offset-0"
       >
         <div className="w-10 rounded-full">
@@ -47,7 +47,7 @@ export const UserItem = ({ className }) => {
         </div>
       </label>
       <ul
-        tabindex="0"
+        tabIndex={0}
         className="menu menu-sm dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52 fixed z-10"
       >
         <li>

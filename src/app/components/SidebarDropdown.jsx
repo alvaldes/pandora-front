@@ -3,7 +3,7 @@ import { LuFolderCog, s } from 'react-icons/lu';
 
 export const SidebarDropdown = ({ label, children, icon }) => {
   return (
-    <details close>
+    <details open={false}>
       <summary
         className="cursor-pointer list-none flex items-center
       space-x-2 text-base-content transition-colors rounded-lg hover:bg-primary-focus hover:text-primary-content`}

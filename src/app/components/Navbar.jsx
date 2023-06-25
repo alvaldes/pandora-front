@@ -12,7 +12,7 @@ export const Navbar = ({ isSidebarOpen, toggleSidebar }) => {
           onClick={toggleSidebar}
         >
           {/* this hidden checkbox controls the state */}
-          <input type="checkbox" checked={isSidebarOpen} className="hidden" />
+          {/*<input type="checkbox" checked={isSidebarOpen} className="hidden" />*/}
 
           {/* hamburger icon */}
           <svg
