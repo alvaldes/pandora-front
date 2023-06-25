@@ -9,7 +9,7 @@ export function middleware(request) {
 
   if (!request.cookies.has('pandoraToken')) {
     //validar que el jwt sea valido
-    //return NextResponse.redirect(new URL('/auth/login', request.url));
+    return NextResponse.redirect(new URL('/auth/login', request.url));
   }
 }
 

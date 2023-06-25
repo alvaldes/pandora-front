@@ -1,6 +1,6 @@
 "use client";
 //import { SwipeableEdge } from "@/app/components/SwipeableEdge";
-import { TableHome } from "@/app/components/TableHome";
+import { Table } from "@/app/components/Table";
 import axios from "axios";
 //import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -20,12 +20,21 @@ export default function Home() {
       router.push('/');
     }
   };*/
+  const header = ["IDPerson", "CI", "Name", "DepartamentHR"];
   const prueba = [
     {
+      ID: 3128,
       IDPerson: 3733,
       CI: "82052607258",
       Name: "Diana Perez Armayor",
       DepartamentHR: "Fac. Ing. Industrial",
+    },
+    {
+      ID: 3129,
+      IDPerson: 3710,
+      CI: "96277013847",
+      Name: "Rosaura Martinez Cuellar",
+      DepartamentHR: "Fac. Ing. Informatica",
     },
   ];
 
@@ -77,12 +86,10 @@ export default function Home() {
       </div>
 
       <div className="w-full py-4">
-        <h1 className="text-xl">Personal del Departamento Seleccionado</h1>
-        <TableHome data={prueba} />
+        <Table title="Personal del Departamento Seleccionado" header={header} body={prueba} checked number view edit remove editRm search />
       </div>
       <div className="w-full py-8">
-        <h1 className="text-xl">Colaboradores del Departamento Seleccionado</h1>
-        <TableHome data={prueba} />
+        <Table title="Colaboradores del Departamento Seleccionado" header={header} body={prueba} checked number view edit remove search />
       </div>
       <div className="alert alert-success">
         <svg
