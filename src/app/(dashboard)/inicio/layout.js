@@ -1,7 +1,7 @@
 "use client";
 
 import { SwipeableEdge } from "@/app/components/SwipeableEdge";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const HomeLayout = ({ children }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -10,31 +10,50 @@ const HomeLayout = ({ children }) => {
     setIsDrawerOpen(!isDrawerOpen);
   };
 
-  let facultyActive = localStorage.getItem("faculty");
-  let departmentActive = localStorage.getItem("department");
-  let checkedActive = localStorage.getItem("checked");
-  let nameActive = localStorage.getItem("personName");
-  let idActive = localStorage.getItem("id");
-
-  const [selects, setSelects] = useState({
-    faculty: facultyActive !== "undefined" ? facultyActive : "",
-    department: departmentActive !== "undefined" ? departmentActive : "",
-    checked: checkedActive !== "undefined" ? checkedActive.match("true") : true,
-    personName: nameActive !== "undefined" ? nameActive : "",
-    id: idActive !== "undefined" ? idActive : "",
-  });
-
+  const [selects, setSelects] = useState(
+    JSON.parse(localStorage.getItem("ITEM_SETTING")) || {
+      FACULTY: "",
+      DEPARTMENT: "",
+      IS_ACTIVE: true,
+      NAME: "",
+      ID: "",
+    }
+  );
+  const [search, setSearch] = useState(
+    JSON.parse(sessionStorage.getItem("ITEM_SEARCH")) || {
+      IS_ACTIVE: true,
+      NAME: "",
+      ID: "",
+    }
+  );
   const selectUpdate = ({ target }) => {
     setSelects({
+      ...selects,
       [target.name]: target.type === "checkbox" ? target.checked : target.value,
     });
-    localStorage.removeItem(`${target.name}`);
-    localStorage.setItem(
-      `${target.name}`,
-      target.type === "checkbox" ? target.checked : target.value
-    );
+  };
+  const searchUpdate = ({ target }) => {
+    setSearch({
+      ...search,
+      [target.name]: target.type === "checkbox" ? target.checked : target.value,
+    });
   };
 
+  /**
+   * Local Storage (useEffect)
+   * Updating data in storage of selected values in setting state
+   */
+  useEffect(() => {
+    localStorage.setItem("ITEM_SETTING", JSON.stringify({ ...selects }));
+  }, [selects]);
+
+  /**
+   * Session Storage (useEffect)
+   * Updating data of the values in storage only in actual sitting.
+   */
+  useEffect(() => {
+    sessionStorage.setItem("ITEM_SEARCH", JSON.stringify({ ...search }));
+  }, [search]);
   return (
     <section className="bg-base-200 min-h-screen text-base-content">
       <div
@@ -51,6 +70,8 @@ const HomeLayout = ({ children }) => {
         selectOnChange={selectUpdate}
         toggleDrawer={toggleDrawer}
         isDrawerOpen={isDrawerOpen}
+        searchSessionOnChange={searchUpdate}
+        searchSessionData={search}
       />
     </section>
   );

@@ -1,9 +1,8 @@
 "use client";
-//import { SwipeableEdge } from "@/app/components/SwipeableEdge";
 import { Table } from "@/app/components/Table";
 import axios from "axios";
 //import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LuRefreshCw } from "react-icons/lu";
 
 export default function Home() {
@@ -20,11 +19,16 @@ export default function Home() {
       router.push('/');
     }
   };*/
-  const header = ["IDPerson", "CI", "Name", "DepartamentHR"];
+  const header = [
+    "No. Trabajador",
+    "CI",
+    "Nombre",
+    "Departamento Recursos Humanos",
+  ];
   const prueba = [
     {
       ID: 3128,
-      IDPerson: 3733,
+      IDJob: 3733,
       CI: "82052607258",
       Name: "Diana Perez Armayor",
       DepartamentHR: "Fac. Ing. Industrial",
@@ -37,20 +41,6 @@ export default function Home() {
       DepartamentHR: "Fac. Ing. Informatica",
     },
   ];
-
-  /*const facultyActive = "prueba 1";
-  const departmentActive = "prueba 1";
-
-  const [selects, setSelects] = useState({
-    faculty: facultyActive,
-    department: departmentActive,
-    checked: true,
-    personName: "",
-    id: "",
-  });
-  const selectUpdate = ({ name, value }) => {
-    setSelects({ name: value });
-  };*/
 
   const [lastUpdate, setLastUpdate] = useState(Date.now());
   const [effect, setEffect] = useState(false);
@@ -86,10 +76,31 @@ export default function Home() {
       </div>
 
       <div className="w-full py-4">
-        <Table title="Personal del Departamento Seleccionado" header={header} body={prueba} checked number view edit remove editRm search />
+        <Table
+          title={`Personal del Departamento Seleccionado`}
+          header={header}
+          body={prueba}
+          checked
+          number
+          view
+          edit
+          remove
+          editRm
+          search
+        />
       </div>
       <div className="w-full py-8">
-        <Table title="Colaboradores del Departamento Seleccionado" header={header} body={prueba} checked number view edit remove search />
+        <Table
+          title="Colaboradores del Departamento Seleccionado"
+          header={header}
+          body={prueba}
+          checked
+          number
+          view
+          edit
+          remove
+          search
+        />
       </div>
       <div className="alert alert-success">
         <svg
