@@ -1,6 +1,6 @@
-"use client";
-import { useEffect, useState } from "react";
-import { LuEdit2, LuEye, LuSearch, LuTrash2 } from "react-icons/lu";
+'use client';
+import { useEffect, useState } from 'react';
+import { LuEdit2, LuEye, LuSearch, LuTrash2 } from 'react-icons/lu';
 
 export const Table = ({
   title,
@@ -30,27 +30,35 @@ export const Table = ({
   }, [body?.length, select]);
   return (
     <div className="flex flex-col">
-      {title && <h1 className="text-xl">{title}</h1>}
-      <div className={`flex ${btnRm ? "" : "flex-col"}`}>
-        {btnRm && (
-          <div className="flex grow">
-            <button className="btn btn-sm self-end mb-2 mt-4">
-              <LuTrash2 /> Eliminar {all ? "todos" : "seleccionados"}
-            </button>
-          </div>
+      <div
+        className={`grid grid-cols-1 md:grid-cols-2 ${
+          btnRm ? '' : 'grid-cols-1'
+        }`}
+      >
+        {title && (
+          <h1 className="text-2xl text-center md:text-left md:text-xl lg:text-2xl align-text-bottom my-auto">
+            {title}
+          </h1>
         )}
         {search && (
-          <div className="flex justify-end mb-2 mt-4">
-            <div className="relative">
+          <div className="flex justify-end mb-2 mt-2 mx-2">
+            <div className="relative w-full md:w-auto">
               <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                 <LuSearch className="w-5 h-5 text-base-content" />
               </div>
               <input
                 type="text"
-                className="pl-10 rounded-lg w-80 input input-bordered input-md"
+                className="pl-10 rounded-lg w-full input input-bordered input-md md:w-64 lg:w-96"
                 placeholder="Buscar..."
               ></input>
             </div>
+          </div>
+        )}
+        {btnRm && (
+          <div className="flex grow">
+            <button className="btn btn-sm self-end mb-2 mt-4">
+              <LuTrash2 /> Eliminar {all ? 'todos' : 'seleccionados'}
+            </button>
           </div>
         )}
       </div>
@@ -59,16 +67,13 @@ export const Table = ({
           <thead className="border-b-2 border-primary bg-base-300">
             <tr className="text-lg font-thin py-0">
               {checked && (
-                <th className="text-lg font-medium text-center w-max py-[2px]">
-                  <label>
-                    <p className="text-center">Todo</p>
-                    <input
-                      type="checkbox"
-                      checked={all}
-                      className="checkbox checkbox-accent checkbox-sm"
-                      onChange={selectedAll}
-                    />
-                  </label>
+                <th className="w-max h-full">
+                  <input
+                    type="checkbox"
+                    checked={all}
+                    className="checkbox checkbox-accent checkbox-sm"
+                    onChange={selectedAll}
+                  />
                 </th>
               )}
               {number && (
@@ -112,9 +117,9 @@ export const Table = ({
           <tbody>
             {body?.map((val, index) => {
               return (
-                <tr key={val.ID} className={`${index % 2 && "bg-base-300"}`}>
+                <tr key={val.ID} className={`${index % 2 && 'bg-base-300'}`}>
                   {checked && (
-                    <th className="flex justify-center">
+                    <th className="h-full w-max">
                       <input
                         type="checkbox"
                         checked={select[index]}
@@ -131,7 +136,7 @@ export const Table = ({
                   )}
                   {number && <th className="text-center">{index + 1}</th>}
                   {Object.keys(val).map(
-                    (key) => key !== "ID" && <th key={key}>{val[key]}</th>
+                    (key) => key !== 'ID' && <th key={key}>{val[key]}</th>
                   )}
                   {view && (
                     <th className="text-lg font-medium text-center w-max py-[2px]">
@@ -157,7 +162,7 @@ export const Table = ({
                         </button>
                         <ul
                           className={`flex gap-2 mt-[35px] p-2 shadow bg-base-100 rounded-box fixed z-10 ${
-                            !editRemove[index] ? "invisible" : "visible"
+                            !editRemove[index] ? 'invisible' : 'visible'
                           }`}
                         >
                           <li>
