@@ -1,13 +1,13 @@
-'use client';
-import { LuChevronLeft, LuChevronRight } from 'react-icons/lu';
+"use client";
+import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 
 export const SwipeableEdge = ({
-  selectActive,
+  //selectActive,
   searchSessionData,
-  selectOnChange,
+  //selectOnChange,
   searchSessionOnChange,
-  facultyList,
-  departmentList,
+  //facultyList,
+  //departmentList,
   isDrawerOpen,
   toggleDrawer,
 }) => {
@@ -16,8 +16,8 @@ export const SwipeableEdge = ({
       id="drawer-swipe"
       className={`fixed z-20 lg:h-[calc(85vh)] overflow-y-auto lg:top-20 right-0 transition-transform rounded-s-lg flex flex-row ${
         (isDrawerOpen &&
-          'translate-x-0 right-0 bg-base-100 border-t border-neutral-700 top-20') ||
-        'translate-x-full right-[30px] h-[60px] top-1/2'
+          "translate-x-0 right-0 bg-base-100 border-t border-neutral-700 top-20") ||
+        "translate-x-full right-[30px] h-[60px] top-1/2"
       }`}
       tabIndex={-1}
       aria-labelledby="drawer-swipe-label"
@@ -25,8 +25,8 @@ export const SwipeableEdge = ({
       <div>
         <button
           className={`relative hover:bg-base-300 mr-2 bg-gray-800 bg-opacity-30 ${
-            (isDrawerOpen && 'h-full w-[30px]') ||
-            'w-[60px] h-[60px] -translate-y-1/2 left-0 top-1/2 border-2 border-primary-content hover:border-primary hover:text-primary rounded-full px-1'
+            (isDrawerOpen && "h-full w-[30px]") ||
+            "w-[60px] h-[60px] -translate-y-1/2 left-0 top-1/2 border-2 border-primary-content hover:border-primary hover:text-primary rounded-full px-1"
           }`}
           onClick={toggleDrawer}
           type="button"
@@ -44,7 +44,7 @@ export const SwipeableEdge = ({
         </button>
       </div>
       <div className="flex flex-col gap-4  p-4 pl-0">
-        <div className="h-max">
+        {/*<div className="h-max">
           <h1 className="text-lg">
             Datos del Departamento con el que se va a Trabajar
           </h1>
@@ -97,11 +97,11 @@ export const SwipeableEdge = ({
               </p>
             )}
           </div>
-        </div>
+        </div>*/}
 
-        <div className="p-4 relative">
+        {/*<div className="p-4 relative">
           <span className="absolute w-full h-[1px] -translate-x-1/2 left-1/2 bg-gray-300 rounded-lg"></span>
-        </div>
+        </div>*/}
 
         <div className="h-max">
           <h1 className="text-lg">Plantilla del Departamento Seleccionado</h1>

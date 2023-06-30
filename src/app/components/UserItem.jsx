@@ -1,33 +1,33 @@
-'use client';
-import axios from 'axios';
-import Image from 'next/image';
-import Link from 'next/link';
-import { themeChange } from 'theme-change';
+"use client";
+import axios from "axios";
+import Image from "next/image";
+import Link from "next/link";
+import { themeChange } from "theme-change";
 
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export const UserItem = ({ className }) => {
   const [isDarkTheme, setIsDarkTheme] = useState(true);
   const router = useRouter();
 
   const getProfile = async () => {
-    const response = await axios.get('/api/profile');
+    const response = await axios.get("/api/profile");
     console.log(response);
   };
 
   const logout = async (e) => {
     e.preventDefault();
-    const result = await axios.post('/api/auth/logout');
+    const result = await axios.post("/api/auth/logout");
     if (result.status == 200) {
-      router.push('/');
+      router.push("/");
     }
   };
 
   useEffect(() => {
-    const storeTheme = localStorage.getItem('theme');
+    const storeTheme = localStorage.getItem("theme");
     themeChange(false);
-    setIsDarkTheme(storeTheme == 'dark');
+    setIsDarkTheme(storeTheme == "dark");
   }, []);
 
   return (
@@ -57,7 +57,9 @@ export const UserItem = ({ className }) => {
           </Link>
         </li>
         <li>
-          <Link href="">Ajustes</Link>
+          <button onClick={() => window.MODAL_SETTING.showModal()}>
+            Ajustes
+          </button>
         </li>
         <li>
           <label className="label cursor-pointer">

@@ -1,9 +1,9 @@
-'use client';
-import { Table } from '@/app/components/Table';
-import axios from 'axios';
+"use client";
+import { Table } from "@/app/components/Table";
+import axios from "axios";
 //import { useRouter } from "next/navigation";
-import { useEffect, useState } from 'react';
-import { LuRefreshCw } from 'react-icons/lu';
+import { useEffect, useState } from "react";
+import { LuRefreshCw } from "react-icons/lu";
 
 export default function Home() {
   //const router = useRouter();
@@ -20,25 +20,25 @@ export default function Home() {
     }
   };*/
   const header = [
-    'No. Trabajador',
-    'CI',
-    'Nombre',
-    'Departamento Recursos Humanos',
+    "No. Trabajador",
+    "CI",
+    "Nombre",
+    "Departamento Recursos Humanos",
   ];
   const prueba = [
     {
       ID: 3128,
       IDJob: 3733,
-      CI: '82052607258',
-      Name: 'Diana Perez Armayor',
-      DepartamentHR: 'Fac. Ing. Industrial',
+      CI: "82052607258",
+      Name: "Diana Perez Armayor",
+      DepartamentHR: "Fac. Ing. Industrial",
     },
     {
       ID: 3129,
       IDPerson: 3710,
-      CI: '96277013847',
-      Name: 'Rosaura Martinez Cuellar',
-      DepartamentHR: 'Fac. Ing. Informatica',
+      CI: "96277013847",
+      Name: "Rosaura Martinez Cuellar",
+      DepartamentHR: "Fac. Ing. Informatica",
     },
   ];
 
@@ -51,7 +51,7 @@ export default function Home() {
     setEffect(false);
   };
   const date = () => {
-    const value = Date(lastUpdate).split(' ');
+    const value = Date(lastUpdate).split(" ");
     return `${value[2]}/${value[1]}/${value[3]} (${value[4]})`;
   };
 
@@ -66,7 +66,7 @@ export default function Home() {
           </p>
           <button
             className={`${
-              effect && 'animate-spin'
+              effect && "animate-spin"
             } btn btn-ghost btn-circle drawer-button lg:swap lg:swap-rotate text-xl btn-sm`}
             onClick={uptLastUpdate}
           >
