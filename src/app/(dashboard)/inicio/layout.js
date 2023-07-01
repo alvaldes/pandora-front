@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { SwipeableEdge } from "@/app/components/SwipeableEdge";
-import { useEffect, useState } from "react";
+import { SwipeableEdge } from '@/app/components/SwipeableEdge';
+import { useEffect, useState } from 'react';
 
 const HomeLayout = ({ children }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -16,13 +16,11 @@ const HomeLayout = ({ children }) => {
       DEPARTMENT: "",
     }
   );*/
-  const [search, setSearch] = useState(
-    JSON.parse(sessionStorage.getItem("ITEM_SEARCH")) || {
-      IS_ACTIVE: true,
-      NAME: "",
-      ID: "",
-    }
-  );
+  const [search, setSearch] = useState({
+    IS_ACTIVE: true,
+    NAME: '',
+    ID: '',
+  });
   /*const selectUpdate = ({ target }) => {
     setSelects({
       ...selects,
@@ -32,7 +30,7 @@ const HomeLayout = ({ children }) => {
   const searchUpdate = ({ target }) => {
     setSearch({
       ...search,
-      [target.name]: target.type === "checkbox" ? target.checked : target.value,
+      [target.name]: target.type === 'checkbox' ? target.checked : target.value,
     });
   };
 
@@ -49,13 +47,15 @@ const HomeLayout = ({ children }) => {
    * Updating data of the values in storage only in actual sitting.
    */
   useEffect(() => {
-    sessionStorage.setItem("ITEM_SEARCH", JSON.stringify({ ...search }));
+    if (typeof window !== 'undefined' && window.sessionStorage) {
+      sessionStorage.setItem('ITEM_SEARCH', JSON.stringify({ ...search }));
+    }
   }, [search]);
   return (
     <section className="bg-base-200 text-base-content">
       <div
         className={`fixed inset-0 z-10 bg-black bg-opacity-50 transition-opacity ${
-          isDrawerOpen ? "opacity-100 visible" : "opacity-0 invisible"
+          isDrawerOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
         }`}
         onClick={toggleDrawer}
       ></div>
