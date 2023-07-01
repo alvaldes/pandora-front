@@ -25,15 +25,17 @@ export const UserItem = ({ className }) => {
   };
 
   useEffect(() => {
-    const storeTheme = localStorage.getItem('theme');
-    themeChange(false);
-    setIsDarkTheme(storeTheme == 'dark');
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const storeTheme = localStorage.getItem('theme');
+      themeChange(false);
+      setIsDarkTheme(storeTheme == 'dark');
+    }
   }, []);
 
   return (
     <div className={className}>
       <label
-        tabindex="0"
+        tabIndex={0}
         className="btn btn-ghost btn-circle avatar ring ring-primary ring-offset-base-100 ring-offset-0"
       >
         <div className="w-10 rounded-full">
@@ -47,8 +49,8 @@ export const UserItem = ({ className }) => {
         </div>
       </label>
       <ul
-        tabindex="0"
-        className="menu menu-sm dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+        tabIndex={0}
+        className="menu menu-sm dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52 fixed z-10"
       >
         <li>
           <Link href="" className="justify-between">
@@ -57,7 +59,9 @@ export const UserItem = ({ className }) => {
           </Link>
         </li>
         <li>
-          <Link href="">Ajustes</Link>
+          <button onClick={() => window.MODAL_SETTING.showModal()}>
+            Ajustes
+          </button>
         </li>
         <li>
           <label className="label cursor-pointer">
