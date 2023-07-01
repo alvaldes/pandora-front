@@ -1,18 +1,16 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 export const SettingSelects = ({ facultyList, departmentList }) => {
-  const [selects, setSelects] = useState(
-    JSON.parse(localStorage.getItem("ITEM_SETTING")) || {
-      FACULTY: "",
-      DEPARTMENT: "",
-    }
-  );
+  const [selects, setSelects] = useState({
+    FACULTY: '',
+    DEPARTMENT: '',
+  });
   const selectUpdate = ({ target }) => {
     setSelects({
       ...selects,
-      [target.name]: target.type === "checkbox" ? target.checked : target.value,
+      [target.name]: target.type === 'checkbox' ? target.checked : target.value,
     });
   };
   /**
@@ -20,7 +18,9 @@ export const SettingSelects = ({ facultyList, departmentList }) => {
    * Updating data in storage of selected values in setting state
    */
   useEffect(() => {
-    localStorage.setItem("ITEM_SETTING", JSON.stringify({ ...selects }));
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.setItem('ITEM_SETTING', JSON.stringify({ ...selects }));
+    }
   }, [selects]);
   return (
     <div className="h-max border-2 border-primary rounded p-4 my-4">
@@ -34,7 +34,7 @@ export const SettingSelects = ({ facultyList, departmentList }) => {
           <span className="label-text text-base text-md">Facultad:</span>
         </label>
         {
-          typeof facultyList === "object" && (
+          typeof facultyList === 'object' && (
             <select
               className="select select-bordered text-sm"
               value={selects?.FACULTY}
@@ -60,7 +60,7 @@ export const SettingSelects = ({ facultyList, departmentList }) => {
           <span className="label-text text-base text-md">Departamento:</span>
         </label>
         {
-          typeof departmentList === "object" && (
+          typeof departmentList === 'object' && (
             <select
               className="select select-bordered text-sm"
               value={selects?.DEPARTMENT}
