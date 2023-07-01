@@ -8,8 +8,8 @@ import { useRef, useState } from 'react';
 
 const LoginPage = () => {
   const router = useRouter();
-  const username = useRef('');
-  const password = useRef('');
+  const username = useRef();
+  const password = useRef();
   // const [passwordShown, setPasswordShown] = useState(false);
 
   const togglePasswordVisiblity = () => {
@@ -59,7 +59,7 @@ const LoginPage = () => {
                 </label>
                 <input
                   type="text"
-                  placeholder="acpandora"
+                  value={username.current}
                   onChange={(e) => (username.current = e.target.value)}
                   name="username"
                   id="username"
@@ -73,8 +73,7 @@ const LoginPage = () => {
                 </label>
                 <input
                   type="password"
-                  placeholder="••••••••"
-                  value={password}
+                  value={password.current}
                   onChange={(e) => (password.current = e.target.value)}
                   name="password"
                   id="password"
