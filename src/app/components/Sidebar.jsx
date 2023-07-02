@@ -15,7 +15,7 @@ import { SidebarItem } from './SidebarItem';
 export const Sidebar = ({ isSidebarOpen }) => {
   return (
     <div
-      className={`fixed inset-y-14 left-0 z-10 flex-shrink-0 w-64 bg-base-300 border-r-2
+      className={`fixed inset-y-14 left-0 z-20 flex-shrink-0 w-64 bg-base-300 border-r-2
       border-base-200 shadow-lg lg:left-16 rounded-tr-3xl rounded-br-3xl md:w-72 lg:static lg:w-96
       lg:h-[calc(85vh)] transform transition-all ${
         isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:hidden'
@@ -43,11 +43,18 @@ export const Sidebar = ({ isSidebarOpen }) => {
             <LuFolders />
           </SidebarItem>
           {/* todo: make a dropdaw menu */}
-          <SidebarDropdown label={'Configuraciones'} icon="LuFolderCog">
+          <SidebarDropdown
+            label={'Configuraciones'}
+            icon="LuFolderCog"
+            toList={['/config/user_role']}
+          >
             <SidebarItem to={''} label="Acesores" />
             <SidebarItem to={''} label="Colaboradores del Departamento" />
             <SidebarItem to={''} label="Jefe de Disciplinja del Departamento" />
-            <SidebarItem to={''} label="Gestión Roles Usuarios" />
+            <SidebarItem
+              to={'/config/user_role'}
+              label="Gestión Roles Usuarios"
+            />
             <SidebarItem to={''} label="Colectivo de Carrera" />
             <SidebarItem to={''} label="Colectivo de Año" />
           </SidebarDropdown>

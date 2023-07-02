@@ -1,6 +1,6 @@
-"use client";
-import { useEffect, useState } from "react";
-import { LuEdit2, LuEye, LuSearch, LuTrash2 } from "react-icons/lu";
+'use client';
+import { useEffect, useState } from 'react';
+import { LuEdit2, LuEye, LuSearch, LuTrash2 } from 'react-icons/lu';
 
 export const Table = ({
   title,
@@ -13,6 +13,7 @@ export const Table = ({
   remove,
   editRm,
   search,
+  toggleItem,
 }) => {
   const [editRemove, setEditRemove] = useState(Array(body?.length).fill(false));
   const [all, setAll] = useState(false);
@@ -28,11 +29,12 @@ export const Table = ({
     cant?.length == body?.length ? setAll(true) : setAll(false);
     cant?.length > 0 ? setBtnRm(true) : setBtnRm(false);
   }, [body?.length, select]);
+
   return (
     <div className="flex flex-col">
       <div
         className={`grid grid-cols-1 md:grid-cols-2 ${
-          btnRm ? "" : "grid-cols-1"
+          btnRm ? '' : 'grid-cols-1'
         }`}
       >
         {title && (
@@ -57,7 +59,7 @@ export const Table = ({
         {btnRm && (
           <div className="flex grow">
             <button className="btn btn-sm self-end mb-2 mt-4">
-              <LuTrash2 /> Eliminar {all ? "todos" : "seleccionados"}
+              <LuTrash2 /> Eliminar {all ? 'todos' : 'seleccionados'}
             </button>
           </div>
         )}
@@ -117,7 +119,7 @@ export const Table = ({
           <tbody>
             {body?.map((val, index) => {
               return (
-                <tr key={val.ID} className={`${index % 2 && "bg-base-300"}`}>
+                <tr key={val.ID} className={`${index % 2 && 'bg-base-300'}`}>
                   {checked && (
                     <th className="h-full w-max">
                       <input
@@ -136,7 +138,18 @@ export const Table = ({
                   )}
                   {number && <th className="text-center">{index + 1}</th>}
                   {Object.keys(val).map(
-                    (key) => key !== "ID" && <th key={key}>{val[key]}</th>
+                    (key) =>
+                      key !== 'ID' && (
+                        <th key={key}>
+                          {toggleItem == key ? (
+                            <div className="badge badge-secondary badge-outline">
+                              {val[key]}
+                            </div>
+                          ) : (
+                            val[key]
+                          )}
+                        </th>
+                      )
                   )}
                   {view && (
                     <th className="text-lg font-medium text-center w-max py-[2px]">
@@ -162,7 +175,7 @@ export const Table = ({
                         </button>
                         <ul
                           className={`flex gap-2 mt-[35px] p-2 shadow bg-base-100 rounded-box fixed z-10 ${
-                            !editRemove[index] ? "invisible" : "visible"
+                            !editRemove[index] ? 'invisible' : 'visible'
                           }`}
                         >
                           <li>

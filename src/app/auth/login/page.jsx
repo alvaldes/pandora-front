@@ -28,7 +28,7 @@ const LoginPage = () => {
   };
 
   return (
-    <section className="bg-base-300">
+    <section className="bg-base-300 h-screen">
       <div className="flex">
         <ThemeToggle properties="absolute top-2 right-5 h-14 w-14"></ThemeToggle>
       </div>

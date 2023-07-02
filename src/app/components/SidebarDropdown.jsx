@@ -1,13 +1,18 @@
 'use client';
+import { usePathname } from 'next/navigation';
 import { LuFolderCog, s } from 'react-icons/lu';
 
-export const SidebarDropdown = ({ label, children, icon }) => {
+export const SidebarDropdown = ({ label, children, icon, toList = [] }) => {
+  const path = usePathname();
+
+  const isActive = toList.includes(path);
   return (
     <details open={false}>
       <summary
-        className="cursor-pointer list-none flex items-center
-      space-x-2 text-base-content transition-colors rounded-lg hover:bg-primary-focus hover:text-primary-content`}
-"
+        className={`cursor-pointer list-none flex items-center space-x-2
+        text-base-content transition-colors rounded-lg ${
+          isActive && 'bg-primary text-primary-content'
+        } hover:bg-primary-focus hover:text-primary-content`}
       >
         {icon && (
           <span

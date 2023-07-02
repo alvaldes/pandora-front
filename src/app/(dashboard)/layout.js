@@ -34,7 +34,7 @@ export default function DashboardLayout({ children, session }) {
         {/* <MenuLeft /> */}
         {/* Backdrop */}
         <div
-          className={`fixed inset-0 z-9 bg-black bg-opacity-50 transition-opacity lg:hidden ${
+          className={`fixed inset-0 z-20 bg-black bg-opacity-50 transition-opacity lg:hidden ${
             isSidebarOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
           }`}
           onClick={toggleSidebar}
