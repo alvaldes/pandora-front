@@ -1,4 +1,4 @@
-import axios, { HttpStatusCode } from 'axios';
+import axios from 'axios';
 import { cookies } from 'next/dist/client/components/headers';
 import { NextResponse } from 'next/server';
 
@@ -6,9 +6,7 @@ export async function POST(req) {
   const cookieStore = cookies();
   const token = cookieStore.get('pandoraToken');
   if (!token) {
-    return new Response('Token not found', {
-      status: 401,
-    });
+    return NextResponse.status(401).json({ message: 'Token not found' });
   }
   //valida el token
   //llama al log out de pandora/api
@@ -17,12 +15,11 @@ export async function POST(req) {
       Authorization: 'Bearer ' + token.value,
     },
   });
-  if (result.status == HttpStatusCode.Ok) {
+  if (result.status == 200) {
     cookieStore.delete('pandoraToken');
-    return new Response('logout successfuly', {
-      status: 200,
-    });
+    // return NextResponse.status(200);
+    return new Response({ status: 200 });
   }
 
-  return NextResponse.status(400).json({ error: result.error });
+  return NextResponse.status(500).json({ error: result.error });
 }
