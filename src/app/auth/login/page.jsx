@@ -64,6 +64,7 @@ const LoginPage = () => {
                   name="username"
                   id="username"
                   className="input input-bordered w-full"
+                  autoFocus
                   required={true}
                 />
               </div>

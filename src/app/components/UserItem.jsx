@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 
 export const UserItem = ({ className }) => {
   const [isDarkTheme, setIsDarkTheme] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState({
     id: 0,
     username: '',
@@ -27,9 +28,17 @@ export const UserItem = ({ className }) => {
   const router = useRouter();
 
   const getProfile = async () => {
-    const response = await axios.get('/api/profile');
-    if (response.status == 200) {
-      setUser(response.data);
+    try {
+      const response = await axios.get('/api/profile');
+      if (response.status == 200) {
+        setUser(response.data);
+        setIsLoading(false);
+      }
+    } catch (error) {
+      console.log(response);
+      if (error.response.status === 401) {
+        logout();
+      }
     }
   };
 
@@ -54,10 +63,18 @@ export const UserItem = ({ className }) => {
     <div className={className}>
       <label
         tabIndex={0}
-        className="btn btn-ghost btn-circle avatar placeholder ring ring-primary ring-offset-base-100 ring-offset-0"
+        className={`btn btn-ghost btn-circle ${
+          isLoading && 'btn-disabled'
+        } avatar placeholder ring ring-primary ring-offset-base-100 ring-offset-0`}
       >
         <div className="bg-neutral-focus text-neutral-content rounded-full w-10">
-          <span className="text-2xl">{user.name.charAt(0)}</span>
+          {isLoading ? (
+            <div className="flex justify-center align-center my-60">
+              <span className="loading loading-spinner text-neutral-content loading-md h-[calc(85vh)"></span>
+            </div>
+          ) : (
+            <span className="text-2xl">{user.name.charAt(0)}</span>
+          )}
         </div>
       </label>
       <ul

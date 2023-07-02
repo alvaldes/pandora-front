@@ -34,7 +34,7 @@ export default function UserRole() {
 
   return isLoading ? (
     <div className="flex justify-center align-center my-60">
-      <span className="loading loading-spinner text-neutral loading-lg h-[calc(85vh)"></span>
+      <span className="loading loading-dots text-neutral loading-lg h-[calc(85vh)"></span>
     </div>
   ) : (
     <main className="container mx-auto flex flex-col">
