@@ -44,6 +44,17 @@ export default function Home() {
 
   const [lastUpdate, setLastUpdate] = useState(Date.now());
   const [effect, setEffect] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [collaboratorData, setCollaboratorData] = useState([]);
+
+  const collaboratorHeader = [
+    'Persona',
+    'Departamento',
+    'Fecha Creacion',
+    'Creado por',
+    'Fecha Modificacion',
+    'Modificado por',
+  ];
 
   const uptLastUpdate = () => {
     setEffect(true);
@@ -55,7 +66,34 @@ export default function Home() {
     return `${value[2]}/${value[1]}/${value[3]} (${value[4]})`;
   };
 
-  return (
+  useEffect(() => {
+    const loadAllUsers = async () => {
+      const response = await axios.get('/api/academic/collaborator/138');
+      if (response.status == 200) {
+        const tableData = [];
+        response.data.map((d, i) => {
+          tableData[i] = {
+            ID: d.idCollaborator,
+            Persona: d.idPerson,
+            Departamento: d.idDepartment,
+            'Fecha Creacion': d.createdOn,
+            'Creado por': d.createdBy,
+            'Fecha Modificacion': d.modifiedOn,
+            'Modificado por': d.modifiedBy,
+          };
+        });
+        setCollaboratorData(tableData);
+        setIsLoading(false);
+      }
+    };
+    loadAllUsers();
+  }, []);
+
+  return isLoading ? (
+    <div className="flex justify-center align-center my-60">
+      <span className="loading loading-dots text-neutral loading-lg h-[calc(85vh)"></span>
+    </div>
+  ) : (
     <main className="container mx-auto flex flex-col">
       <div className={`flex`}>
         <div
@@ -97,13 +135,10 @@ export default function Home() {
       <div className="w-full py-8">
         <Table
           title="Colaboradores del Departamento Seleccionado"
-          header={header}
-          body={prueba}
+          header={collaboratorHeader}
+          body={collaboratorData}
           checked
           number
-          view
-          edit
-          remove
           search
         />
       </div>
