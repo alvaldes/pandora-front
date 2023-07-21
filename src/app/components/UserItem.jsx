@@ -1,41 +1,41 @@
-'use client';
-import axios from 'axios';
-import Link from 'next/link';
-import { themeChange } from 'theme-change';
-import { Modal } from '../components/Modal';
+"use client";
+import axios from "axios";
+import Link from "next/link";
+import { themeChange } from "theme-change";
+import { Modal } from "../components/Modal";
 
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export const UserItem = ({ className }) => {
   const [isDarkTheme, setIsDarkTheme] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState({
     id: 0,
-    username: '',
-    password: '',
+    username: "",
+    password: "",
     role: {
       id: 0,
-      roleName: '',
+      roleName: "",
     },
-    email: '',
-    ci: '',
-    name: '',
-    lastname: '',
-    position: '',
-    status: '',
+    email: "",
+    ci: "",
+    name: "",
+    lastname: "",
+    position: "",
+    status: "",
   });
   const router = useRouter();
 
   const getProfile = async () => {
     try {
-      const response = await axios.get('/api/profile');
+      const response = await axios.get("/api/profile");
       if (response.status == 200) {
         setUser(response.data);
         setIsLoading(false);
       }
     } catch (error) {
-      console.log(response);
+      console.log(error);
       if (error.response.status === 401) {
         logout();
       }
@@ -44,17 +44,17 @@ export const UserItem = ({ className }) => {
 
   const logout = async (e) => {
     e.preventDefault();
-    const result = await axios.post('/api/auth/logout');
+    const result = await axios.post("/api/auth/logout");
     if (result.status == 200) {
-      router.push('/auth/login');
+      router.push("/auth/login");
     }
   };
 
   useEffect(() => {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      const storeTheme = localStorage.getItem('theme');
+    if (typeof window !== "undefined" && window.localStorage) {
+      const storeTheme = localStorage.getItem("theme");
       themeChange(false);
-      setIsDarkTheme(storeTheme == 'cupcake' ? false : true);
+      setIsDarkTheme(storeTheme == "cupcake" ? false : true);
     }
     getProfile();
   }, []);
@@ -64,7 +64,7 @@ export const UserItem = ({ className }) => {
       <label
         tabIndex={0}
         className={`btn btn-ghost btn-circle ${
-          isLoading && 'btn-disabled'
+          isLoading && "btn-disabled"
         } avatar placeholder ring ring-primary ring-offset-base-100 ring-offset-0`}
       >
         <div className="bg-neutral-focus text-neutral-content rounded-full w-10">

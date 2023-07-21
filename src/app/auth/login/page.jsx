@@ -1,15 +1,20 @@
-'use client';
-import ThemeToggle from '@/app/components/ThemeToggle';
-import axios from 'axios';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useRef, useState } from 'react';
+"use client";
+import { Alert } from "@/app/components/Alert";
+import ThemeToggle from "@/app/components/ThemeToggle";
+import axios from "axios";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 
 const LoginPage = () => {
   const router = useRouter();
   const username = useRef();
   const password = useRef();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState({ isError: false, message: "" });
+  const [isAlert, setIsAlert] = useState(false);
+
   // const [passwordShown, setPasswordShown] = useState(false);
 
   const togglePasswordVisiblity = () => {
@@ -18,15 +23,44 @@ const LoginPage = () => {
 
   const OnSubmit = async (e) => {
     e.preventDefault();
-    const result = await axios.post('/api/auth/login', {
-      username: username.current,
-      password: password.current,
-    });
-    if (result.status == 200) {
-      router.push('/');
-    }
-  };
+    setIsLoading(true);
+    const result = await axios
+      .post("/api/auth/login", {
+        username: username.current,
+        password: password.current,
+      })
+      .then((response) => {
+        setIsLoading(false);
 
+        (response.status == 200 && router.push("/")) ||
+          (response.status == 401 &&
+            setIsAlert(true) &&
+            setError({
+              isError: true,
+              message: "Usuaro o contraseña incorrecto",
+            })) ||
+          (setIsAlert(true) &&
+            setError({ isError: true, message: "Fallo de conexión" }));
+      })
+      .catch(() => {
+        setIsLoading(false);
+        setIsAlert(true);
+        setError({ isError: true, message: "Error inesperado" });
+      });
+    /*if (result.status == 200) {
+      router.push("/");
+    }*/
+  };
+  useEffect(() => {
+    if (isAlert) {
+      const timer = setTimeout(() => {
+        setIsAlert(false);
+        setError({ isError: false, message: "" });
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [error, isAlert]);
+  console.log({ error, isAlert });
   return (
     <section className="bg-base-300 h-screen">
       <div className="flex">
@@ -55,7 +89,15 @@ const LoginPage = () => {
             >
               <div className="form-control w-full max-w-x">
                 <label className="label" htmlFor="username">
-                  <span className="label-text">Usuario*</span>
+                  <span
+                    className={`label-text ${
+                      error.message.includes(
+                        "Usuaro o contraseña incorrecto"
+                      ) && "text-error-content"
+                    }`}
+                  >
+                    Usuario*
+                  </span>
                 </label>
                 <input
                   type="text"
@@ -70,7 +112,15 @@ const LoginPage = () => {
               </div>
               <div>
                 <label className="label" htmlFor="password">
-                  <span className="label-text">Contraseña*</span>
+                  <span
+                    className={`label-text ${
+                      error.message.includes(
+                        "Usuaro o contraseña incorrecto"
+                      ) && "text-error-content"
+                    }`}
+                  >
+                    Contraseña*
+                  </span>
                 </label>
                 <input
                   type="password"
@@ -94,13 +144,25 @@ const LoginPage = () => {
                 />
                 <span className="label-text text-base pl-3">Remember me</span>
               </label>
+
               <div className="card-actions">
-                <button type="submit" className="btn btn-primary w-full">
-                  Iniciar Sesión
+                <button
+                  type="submit"
+                  className={`btn btn-primary w-full ${
+                    isLoading && "btn-disabled"
+                  }`}
+                >
+                  {isLoading ? (
+                    <div className="flex justify-center align-center">
+                      <span className="loading loading-spinner text-neutral-content loading-md"></span>
+                    </div>
+                  ) : (
+                    "Iniciar Sesión"
+                  )}
                 </button>
               </div>
               <p className="text-center text-sm font-light text-primary-content text-opacity-50">
-                En caso de problemas contacte a:{' '}
+                En caso de problemas contacte a:{" "}
                 <a
                   href="#"
                   className="font-medium text-primary-600 hover:underline dark:text-primary-500"
@@ -111,6 +173,10 @@ const LoginPage = () => {
             </form>
           </div>
         </div>
+      </div>
+
+      <div className={`${!isAlert && "hidden"} fixed top-2 right-2`}>
+        <Alert {...error} />
       </div>
     </section>
   );
