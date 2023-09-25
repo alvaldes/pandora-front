@@ -5,7 +5,9 @@ export const Modal = ({ children, id, btnCLoseX, btnAccept, btnClose }) => {
     <dialog id={`MODAL_${id || ""}`} className="modal">
       <form method="dialog" className="modal-box">
         {btnCLoseX && (
-          <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+          <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={
+                (typeof btnCLoseX === "function" && btnCLoseX) || (() => {})
+              }>
             <LuX />
           </button>
         )}

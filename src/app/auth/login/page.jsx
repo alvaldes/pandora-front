@@ -9,8 +9,8 @@ import { useEffect, useRef, useState } from "react";
 
 const LoginPage = () => {
   const router = useRouter();
-  const username = useRef();
-  const password = useRef();
+  const [user, setUser] = useState({ username: "", password: "" }); //const username = useRef();
+  //const password = useRef();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState({ isError: false, message: "" });
   const [isAlert, setIsAlert] = useState(false);
@@ -26,8 +26,8 @@ const LoginPage = () => {
     setIsLoading(true);
     const result = await axios
       .post("/api/auth/login", {
-        username: username.current,
-        password: password.current,
+        username: user.username,
+        password: user.password,
       })
       .then((response) => {
         setIsLoading(false);
@@ -42,7 +42,7 @@ const LoginPage = () => {
           (setIsAlert(true) &&
             setError({ isError: true, message: "Fallo de conexión" }));
       })
-      .catch(() => {
+      .catch((error) => {
         setIsLoading(false);
         setIsAlert(true);
         setError({ isError: true, message: "Error inesperado" });
@@ -101,8 +101,10 @@ const LoginPage = () => {
                 </label>
                 <input
                   type="text"
-                  value={username.current}
-                  onChange={(e) => (username.current = e.target.value)}
+                  value={user.username}
+                  onChange={(e) =>
+                    setUser((old) => ({ ...old, username: e.target.value }))
+                  }
                   name="username"
                   id="username"
                   className="input input-bordered w-full"
@@ -124,8 +126,10 @@ const LoginPage = () => {
                 </label>
                 <input
                   type="password"
-                  value={password.current}
-                  onChange={(e) => (password.current = e.target.value)}
+                  value={user.password}
+                  onChange={(e) =>
+                    setUser((old) => ({ ...old, password: e.target.value }))
+                  }
                   name="password"
                   id="password"
                   className="input input-bordered w-full"
