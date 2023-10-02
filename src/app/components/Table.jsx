@@ -92,7 +92,7 @@ export const Table = ({
                 const temp = [
                   ...Children.toArray(children)?.map((val) => val.key),
                 ];
-                console.log(temp.filter((val, index) => select[index]));
+                console.log(temp.filter((__, index) => select[index]));
               }}
             >
               <LuTrash2 /> Eliminar {all ? "todos" : "seleccionados"}
