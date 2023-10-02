@@ -288,7 +288,16 @@ export const Table = ({
                         <th className="text-lg font-medium text-center w-max py-[2px]">
                           <button
                             className="btn btn-warning btn-sm btn-rounded"
-                            onClick={() => console.log(val.key)}
+                            onClick={() => {
+                              setViewModal([
+                                val.key,
+                                ...header.map((td, index) => ({
+                                  key: `${td}`,
+                                  value: `${val.props.children[index].props.children}`,
+                                })),
+                              ]);
+                              window[`MODAL_EDIT_${id}`].showModal();
+                            }}
                           >
                             <LuEdit2 className="text-warning-content" />
                           </button>
@@ -339,6 +348,34 @@ export const Table = ({
                     {info.value}
                   </span>
                 </label>
+              </div>
+            ))}
+        </div>
+      </Modal>
+      <Modal
+        btnCLoseX={() => setViewModal({})}
+        id={`EDIT_${id}`}
+        btnAccept={() => console.log(viewModal[0])}
+      >
+        <div className="text-center border-b-2 border-primary p-2 mb-6">
+          <h3 className="font-bold text-lg uppercase">
+            Información de Usuario:
+          </h3>
+        </div>
+        <div className="flex flex-col gap-4 border-2 border-primary rounded p-4 my-4">
+          {Object.keys(viewModal).length > 0 &&
+            viewModal?.slice(1)?.map((info, index) => (
+              <div key={index} className="grid grid-cols-2">
+                <label className="label justify-start flex gap-2">
+                  <span className="label-text text-base text-md">
+                    {info.key}:
+                  </span>
+                </label>
+                <input
+                  className="input input-primary input-md"
+                  value={info.value}
+                  onChange={() => {}}
+                />
               </div>
             ))}
         </div>
