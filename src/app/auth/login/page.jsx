@@ -32,15 +32,22 @@ const LoginPage = () => {
       .then((response) => {
         setIsLoading(false);
 
-        (response.status == 200 && router.push("/")) ||
+        if (response.status == 200) {
+          setIsAlert(true);
+          setError({
+            isError: false,
+            message: "Inicio de sección",
+          });
+          router.push("/");
+        } else
           (response.status == 401 &&
             setIsAlert(true) &&
             setError({
               isError: true,
               message: "Usuaro o contraseña incorrecto",
             })) ||
-          (setIsAlert(true) &&
-            setError({ isError: true, message: "Fallo de conexión" }));
+            (setIsAlert(true) &&
+              setError({ isError: true, message: "Fallo de conexión" }));
       })
       .catch((error) => {
         setIsLoading(false);

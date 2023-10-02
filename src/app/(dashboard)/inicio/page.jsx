@@ -133,40 +133,41 @@ export default function Home() {
 
       <div className="w-full py-4">
         <Table
+          header={header}
           checked
           view
           edit
           remove
           search={onChangeFilter}
-          toggleItem
           number
           title="Personal del Departamento Seleccionado"
+          id="pDpto"
         >
           {/* always put the id, it must match the variable intended for the search, and it is used to create the info modal, etc. */}
-          <tread id="pDpto">
-            <tr>
-              {header.map((value, index) => (
-                <th key={index}>{value}</th>
-              ))}
-            </tr>
-          </tread>
-          <tbody>
-            {prueba
-              ?.filter((item) =>
-                //ID in position 0 always
-                [...Object.values(item)]
-                  .slice(1)
-                  .some((value) => `${value}`.includes(filter.pDpto.search))
+          {prueba
+            ?.filter((item) =>
+              //ID in position 0 always
+              Object.values(item).some((value) =>
+                `${value}`
+                  .toLowerCase()
+                  .includes(filter.pDpto.search.toLowerCase())
               )
-              ?.map((item) => (
-                <tr key={item.ID}>
-                  <td className="text-center">{item.IDJob}</td>
-                  <td className="text-center">{item.CI}</td>
-                  <td className="text-center">{item.Name}</td>
-                  <td className="text-center">{item.DepartamentHR}</td>
-                </tr>
-              ))}
-          </tbody>
+            )
+            ?.map((item) => (
+              <tr key={item.ID}>
+                {Object.values(item)
+                  .filter((__, index) => !(Object.keys(item)[index] === "ID"))
+                  ?.map((value, index) => (
+                    <td
+                      key={index}
+                      className="text-center"
+                      name={Object.keys(item)[index + 1]}
+                    >
+                      {value}
+                    </td>
+                  ))}
+              </tr>
+            ))}
         </Table>
       </div>
       <div className="w-full py-8">
@@ -177,34 +178,33 @@ export default function Home() {
           edit
           remove
           search={onChangeFilter}
-          toggleItem
           number
+          id="cDpto"
+          header={collaboratorHeader}
         >
-          {/* always put the id, it must match the variable intended for the search, and it is used to create the info modal, etc. */}
-          <tread id="cDpto">
-            <tr>
-              {header.map((value, index) => (
-                <th key={index}>{value}</th>
-              ))}
-            </tr>
-          </tread>
-          <tbody>
-            {prueba
-              ?.filter((item) =>
-                //ID in position 0 always
-                [...Object.values(item)]
-                  .slice(1)
-                  .some((value) => `${value}`.includes(filter.cDpto.search))
+          {collaboratorData
+            ?.filter((item) =>
+              Object.values(item).some((value) =>
+                `${value}`
+                  .toLowerCase()
+                  .includes(filter.cDpto.search.toLowerCase())
               )
-              ?.map((item) => (
-                <tr key={item.ID}>
-                  <td className="text-center">{item.IDJob}</td>
-                  <td className="text-center">{item.CI}</td>
-                  <td className="text-center">{item.Name}</td>
-                  <td className="text-center">{item.DepartamentHR}</td>
-                </tr>
-              ))}
-          </tbody>
+            )
+            ?.map((item) => (
+              <tr key={item.ID}>
+                {Object.values(item)
+                  .filter((__, index) => !(Object.keys(item)[index] === "ID"))
+                  ?.map((value, index) => (
+                    <td
+                      key={index}
+                      className="text-center"
+                      name={Object.keys(item)[index + 1]}
+                    >
+                      {value}
+                    </td>
+                  ))}
+              </tr>
+            ))}
         </Table>
       </div>
     </main>

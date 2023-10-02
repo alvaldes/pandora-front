@@ -49,7 +49,7 @@ export const Sidebar = ({ isSidebarOpen }) => {
             toList={['/config/user_role']}
           >
             <SidebarItem to={''} label="Acesores" />
-            <SidebarItem to={''} label="Colaboradores del Departamento" />
+            <SidebarItem to={'/config/colaboradores'} label="Colaboradores del Departamento" />
             <SidebarItem to={''} label="Jefe de Disciplinja del Departamento" />
             <SidebarItem
               to={'/config/user_role'}

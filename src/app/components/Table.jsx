@@ -16,23 +16,22 @@ import { Modal } from "./Modal";
  */
 
 export const Table = ({
+  id,
   title,
   checked = false,
+  header = [],
   number,
   view = false,
   edit = false,
   remove = false,
   editRm = false,
   search = false,
-  toggleItem,
+  toggleItems = [],
   children,
 }) => {
-  const bodyLng = Children.toArray(children).filter(
-    (item) => item.type === "tbody"
-  )[0]?.props.children?.length;
+  const bodyLng = Children.toArray(children)?.length;
   const headerLng =
-    Children.toArray(children).filter((item) => item.type === "tread")[0]?.props
-      .children?.props.children?.length +
+    header?.length +
     ((checked && 1) || 0) +
     (number ? 1 : 0) +
     (view ? 1 : 0) +
@@ -80,14 +79,7 @@ export const Table = ({
                 name="search"
                 className="pl-10 rounded-lg w-full input input-bordered input-md md:w-64 lg:w-96"
                 placeholder="Buscar..."
-                onChange={(e) =>
-                  search(
-                    Children.toArray(children).filter(
-                      (item) => item.type === "tread"
-                    )[0]?.props.id,
-                    e
-                  )
-                }
+                onChange={(e) => search(id, e)}
               ></input>
             </div>
           </div>
@@ -98,9 +90,7 @@ export const Table = ({
               className="btn btn-sm self-end mb-2 mt-4"
               onClick={() => {
                 const temp = [
-                  ...Children.toArray(children)
-                    .filter((item) => item.type === "tbody")[0]
-                    ?.props.children.map((val) => val.key),
+                  ...Children.toArray(children)?.map((val) => val.key),
                 ];
                 console.log(temp.filter((val, index) => select[index]));
               }}
@@ -129,13 +119,21 @@ export const Table = ({
                   No.
                 </th>
               )}
-              {Children.toArray(children)
-                .filter((item) => item.type === "tread")[0]
-                .props.children.props.children.map((item) =>
-                  React.cloneElement(item, {
-                    className: `${item.props.className} text-lg whitespace-normal font-medium py-[2px]`,
-                  })
-                )}
+              {header?.map((value, index) => (
+                <th
+                  key={index}
+                  className={`text-lg whitespace-normal font-medium py-[2px] ${
+                    toggleItems &&
+                    toggleItems.some(
+                      (value) =>
+                        value.toLowerCase() === header[index].toLowerCase()
+                    ) &&
+                    "text-center"
+                  }`}
+                >
+                  {value}
+                </th>
+              ))}
               {view && (
                 <th className="text-lg font-medium text-center w-max py-[2px]">
                   <span className="text-center">Ver</span>
@@ -161,136 +159,149 @@ export const Table = ({
           </thead>
           <tbody>
             {(bodyLng > 0 &&
-              Children.toArray(children)
-                .filter((item) => item.type === "tbody")[0]
-                ?.props.children?.map((val, index) => {
-                  return (
-                    <tr key={index} className={`${index % 2 && "bg-base-300"}`}>
-                      {
-                        //Section select row
-                        checked && (
-                          <th className="h-full w-max">
-                            <input
-                              type="checkbox"
-                              checked={select[index]}
-                              className="checkbox checkbox-accent checkbox-sm"
-                              onChange={() =>
-                                setSelect(
-                                  select.map((val, index1) =>
-                                    index == index1 ? !val : val
-                                  )
+              Children.toArray(children)?.map((val, index) => {
+                return (
+                  <tr key={index} className={`${index % 2 && "bg-base-300"}`}>
+                    {
+                      //Section select row
+                      checked && (
+                        <th className="h-full w-max">
+                          <input
+                            type="checkbox"
+                            checked={select[index]}
+                            className="checkbox checkbox-accent checkbox-sm"
+                            onChange={() =>
+                              setSelect(
+                                select.map((val, index1) =>
+                                  index == index1 ? !val : val
                                 )
-                              }
-                            />
-                          </th>
-                        )
-                      }
-                      {
-                        //Section number position - list items
-                        number && <th className="text-center">{index + 1}</th>
-                      }
-                      {
-                        //Content table send from children props
-                        val.props.children.map((td) => td)
-                      }
-                      {
-                        //Button action open info row in modal
-                        view && (
-                          <th className="text-lg font-medium text-center w-max py-[2px]">
-                            <button
-                              className="btn btn-info btn-sm btn-rounded"
-                              onClick={() => {
-                                setViewModal(
-                                  Children.toArray(children)
-                                    .filter((item) => item.type === "tread")[0]
-                                    .props.children.props.children.map(
-                                      (td, index) =>
-                                        `${td.props.children}: ${val.props.children[index].props.children}`
-                                    )
-                                );
-                                window[
-                                  `MODAL_VIEW_${
-                                    Children.toArray(children).filter(
-                                      (item) => item.type === "tread"
-                                    )[0]?.props.id
-                                  }`
-                                ].showModal();
-                              }}
-                            >
-                              <LuEye className="text-info-content" />
-                            </button>
-                          </th>
-                        )
-                      }
-                      {edit && remove && editRm && (
-                        <th className="relative">
-                          <div className="flex justify-center">
-                            <button
-                              className="btn btn-primary btn-rounded btn-sm"
-                              onClick={() =>
-                                setEditRemove(
-                                  editRemove.map((val, index1) =>
-                                    index == index1 ? !val : false
-                                  )
-                                )
-                              }
-                            >
-                              Action
-                            </button>
-                            <ul
-                              className={`flex gap-2 mt-[35px] p-2 shadow bg-base-100 rounded-box fixed z-10 ${
-                                !editRemove[index] ? "invisible" : "visible"
-                              }`}
-                            >
-                              <li>
-                                <button
-                                  className="btn btn-warning btn-sm btn-rounded"
-                                  onClick={() => console.log(val.key)}
-                                >
-                                  <LuEdit2 className="text-warning-content" />
-                                </button>
-                              </li>
-                              <li>
-                                <button
-                                  className="btn btn-sm btn-error"
-                                  onClick={() => console.log(val.key)}
-                                >
-                                  <LuTrash2 className="text-error-content" />
-                                </button>
-                              </li>
-                            </ul>
-                          </div>
+                              )
+                            }
+                          />
                         </th>
-                      )}
-                      {
-                        // Button action edit content row
-                        ((edit && !remove) || (edit && !editRm)) && (
-                          <th className="text-lg font-medium text-center w-max py-[2px]">
-                            <button
-                              className="btn btn-warning btn-sm btn-rounded"
-                              onClick={() => console.log(val.key)}
-                            >
-                              <LuEdit2 className="text-warning-content" />
-                            </button>
+                      )
+                    }
+                    {
+                      //Section number position - list items
+                      number && <th className="text-center">{index + 1}</th>
+                    }
+                    {
+                      //Content table send from children props
+                      val.props.children.map((td, index) =>
+                        toggleItems &&
+                        toggleItems.some(
+                          (value) =>
+                            value.toLowerCase() === header[index].toLowerCase()
+                        ) ? (
+                          // (!important): toggleItems is obtaining by default the active/inactive variables (if necessary modify to obtain true/false)
+                          <th key={index}>
+                            <div className="label cursor-pointer justify-center">
+                              <input
+                                type="checkbox"
+                                className="toggle toggle-sm"
+                                data-toggle="ACTIVE,INACTIVE"
+                                onChange={() => {}}
+                                checked={
+                                  td.props.children.toLowerCase() === "active"
+                                }
+                              />
+                            </div>
                           </th>
+                        ) : (
+                          td
                         )
-                      }
-                      {
-                        // Button acction remove row
-                        ((!edit && remove) || (remove && !editRm)) && (
-                          <th className="text-lg font-medium text-center w-max py-[2px]">
-                            <button
-                              className="btn btn-sm btn-error"
-                              onClick={() => console.log(val.key)}
-                            >
-                              <LuTrash2 className="text-error-content" />
-                            </button>
-                          </th>
-                        )
-                      }
-                    </tr>
-                  );
-                })) || (
+                      )
+                    }
+                    {
+                      //Button action open info row in modal
+                      view && (
+                        <th className="text-lg font-medium text-center w-max py-[2px]">
+                          <button
+                            className="btn btn-info btn-sm btn-rounded"
+                            onClick={() => {
+                              setViewModal(
+                                header.map((td, index) => ({
+                                  key: `${td}`,
+                                  value: `${val.props.children[index].props.children}`,
+                                }))
+                              );
+                              window[`MODAL_VIEW_${id}`].showModal();
+                            }}
+                          >
+                            <LuEye className="text-info-content" />
+                          </button>
+                        </th>
+                      )
+                    }
+                    {edit && remove && editRm && (
+                      <th className="relative">
+                        <div className="flex justify-center">
+                          <button
+                            className="btn btn-primary btn-rounded btn-sm"
+                            onClick={() =>
+                              setEditRemove(
+                                editRemove.map((val, index1) =>
+                                  index == index1 ? !val : false
+                                )
+                              )
+                            }
+                          >
+                            Action
+                          </button>
+                          <ul
+                            className={`flex gap-2 mt-[35px] p-2 shadow bg-base-100 rounded-box fixed z-10 ${
+                              !editRemove[index] ? "invisible" : "visible"
+                            }`}
+                          >
+                            <li>
+                              <button
+                                className="btn btn-warning btn-sm btn-rounded"
+                                onClick={() => console.log(val.key)}
+                              >
+                                <LuEdit2 className="text-warning-content" />
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                className="btn btn-sm btn-error"
+                                onClick={() => console.log(val.key)}
+                              >
+                                <LuTrash2 className="text-error-content" />
+                              </button>
+                            </li>
+                          </ul>
+                        </div>
+                      </th>
+                    )}
+                    {
+                      // Button action edit content row
+                      ((edit && !remove) || (edit && !editRm)) && (
+                        <th className="text-lg font-medium text-center w-max py-[2px]">
+                          <button
+                            className="btn btn-warning btn-sm btn-rounded"
+                            onClick={() => console.log(val.key)}
+                          >
+                            <LuEdit2 className="text-warning-content" />
+                          </button>
+                        </th>
+                      )
+                    }
+                    {
+                      // Button acction remove row
+                      ((!edit && remove) || (remove && !editRm)) && (
+                        <th className="text-lg font-medium text-center w-max py-[2px]">
+                          <button
+                            className="btn btn-sm btn-error"
+                            onClick={() => console.log(val.key)}
+                          >
+                            <LuTrash2 className="text-error-content" />
+                          </button>
+                        </th>
+                      )
+                    }
+                  </tr>
+                );
+              })) || (
               // If don't content in body table, there view this massage
               <tr className="text-center">
                 <th colSpan={`${headerLng}`} className="py-4">
@@ -301,13 +312,7 @@ export const Table = ({
           </tbody>
         </table>
       </div>
-      <Modal
-        btnCLoseX={() => setViewModal({})}
-        id={`VIEW_${
-          Children.toArray(children).filter((item) => item.type === "tread")[0]
-            ?.props.id
-        }`}
-      >
+      <Modal btnCLoseX={() => setViewModal({})} id={`VIEW_${id}`}>
         <div className="text-center border-b-2 border-primary p-2 mb-6">
           <h3 className="font-bold text-lg uppercase">
             Información de Usuario:
@@ -316,8 +321,15 @@ export const Table = ({
         <div className="flex flex-col gap-4 border-2 border-primary rounded p-4 my-4">
           {Object.keys(viewModal).length > 0 &&
             viewModal?.map((info, index) => (
-              <div key={index} className="text-base-content">
-                <h1 className="text-md w-max">{info}</h1>
+              <div key={index}>
+                <label className="label justify-start flex gap-2">
+                  <span className="label-text text-base text-md">
+                    {info.key}:
+                  </span>
+                  <span className="label-text text-base-content text-md font-semibold">
+                    {info.value}
+                  </span>
+                </label>
               </div>
             ))}
         </div>
