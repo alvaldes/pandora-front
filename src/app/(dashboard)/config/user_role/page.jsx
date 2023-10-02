@@ -24,6 +24,18 @@ export default function UserRole() {
     }));
   };
 
+  const actionActiveInactive = (index, stateItem, stateValue) => {
+    console.log(index, stateItem, stateValue);
+    setData((old) =>
+      old.map((item, _index) => {
+        if (_index == index) {
+          item[stateItem] = stateValue ? "Active" : "Inactive";
+          return item;
+        } else return item;
+      })
+    );
+  };
+
   useEffect(() => {
     const loadAllUsers = async () => {
       const response = await axios.get("/api/config/user_role");
@@ -60,7 +72,7 @@ export default function UserRole() {
           body={data}
           checked
           number
-          toggleItems={[{ 0: "Estado", 1: () => {} }]}
+          toggleItems={[{ 0: "Estado", 1: actionActiveInactive }]}
           edit
           remove
           id="user"

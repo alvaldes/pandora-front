@@ -198,18 +198,20 @@ export const Table = ({
                           <th key={index1}>
                             <div className="label cursor-pointer justify-center">
                               <input
+                                name={header[index1]}
                                 type="checkbox"
                                 className="toggle toggle-sm"
                                 data-toggle="ACTIVE,INACTIVE"
-                                onChange={() => {
+                                onChange={({ target }) =>
                                   toggleItems.filter(
-                                    (value) =>
-                                      value[0].toLowerCase() ===
-                                      header[index1].toLowerCase()
-                                  )[0][1](index, index1, td.props.children);
-                                }}
+                                    (value) => value[0] === target.name
+                                  )[0][1](index, target.name, target.checked)
+                                }
                                 checked={
-                                  td.props.children.toLowerCase() === "active"
+                                  typeof td.props.children === "string"
+                                    ? td.props.children.toUpperCase() ===
+                                      "ACTIVE"
+                                    : td.props.children
                                 }
                               />
                             </div>
