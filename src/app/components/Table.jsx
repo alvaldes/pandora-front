@@ -126,7 +126,7 @@ export const Table = ({
                     toggleItems &&
                     toggleItems.some(
                       (value) =>
-                        value.toLowerCase() === header[index].toLowerCase()
+                        value[0].toLowerCase() === header[index].toLowerCase()
                     ) &&
                     "text-center"
                   }`}
@@ -187,20 +187,27 @@ export const Table = ({
                     }
                     {
                       //Content table send from children props
-                      val.props.children.map((td, index) =>
+                      val.props.children.map((td, index1) =>
                         toggleItems &&
                         toggleItems.some(
                           (value) =>
-                            value.toLowerCase() === header[index].toLowerCase()
+                            value[0].toLowerCase() ===
+                            header[index1].toLowerCase()
                         ) ? (
                           // (!important): toggleItems is obtaining by default the active/inactive variables (if necessary modify to obtain true/false)
-                          <th key={index}>
+                          <th key={index1}>
                             <div className="label cursor-pointer justify-center">
                               <input
                                 type="checkbox"
                                 className="toggle toggle-sm"
                                 data-toggle="ACTIVE,INACTIVE"
-                                onChange={() => {}}
+                                onChange={() => {
+                                  toggleItems.filter(
+                                    (value) =>
+                                      value[0].toLowerCase() ===
+                                      header[index1].toLowerCase()
+                                  )[0][1](index, index1, td.props.children);
+                                }}
                                 checked={
                                   td.props.children.toLowerCase() === "active"
                                 }

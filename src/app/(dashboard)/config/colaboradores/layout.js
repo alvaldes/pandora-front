@@ -4,14 +4,14 @@ import Collaborator from "./page";
 
 function CollaboratorLayout({ children }) {
   const [tabIndex, setTabIndex] = useState(0);
-  const list0 = [
+  const [list0, setList0] = useState([
     { ID: 15, 0: "hola", 1: "Active", 2: "Inactive" },
     { ID: 16, 0: "mundo", 1: "Inactive", 2: "Active" },
-  ];
-  const list1 = [
+  ]);
+  const [list1, setList1] = useState([
     { ID: 15, 0: "hola1", 1: "Inactive", 2: "Active" },
     { ID: 16, 0: "mundo1", 1: "Active", 2: "Inactive" },
-  ];
+  ]);
   return (
     <div className="flex flex-col gap-4 py-4">
       <div className="flex flex-col items-center">
@@ -44,7 +44,25 @@ function CollaboratorLayout({ children }) {
         search={() => {}}
         checked
         view
-        toggleItems={["Estado 1", "Estado 2"]}
+        toggleItems={[
+          {
+            0: "Estado 1",
+            1: (index, index1, state) => {
+              let tem = tabIndex ? list1 : list0;
+              tem[index][index1] = state === "Active" ? "Inactive" : "Active";
+              tabIndex ? setList1(tem) : setList0(tem);
+            },
+          },
+          {
+            0: "Estado 2",
+            1: (index, index1, state) => {
+              const tem = tabIndex ? list1 : list0;
+              tem[index][index1] = state === "Active" ? "Inactive" : "Active";
+              tabIndex ? setList1(tem) : setList0(tem);
+            },
+          },
+          ,
+        ]}
       />
     </div>
   );

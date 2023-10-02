@@ -60,7 +60,7 @@ export default function UserRole() {
           body={data}
           checked
           number
-          toggleItems={["Estado"]}
+          toggleItems={[{ 0: "Estado", 1: () => {} }]}
           edit
           remove
           id="user"
