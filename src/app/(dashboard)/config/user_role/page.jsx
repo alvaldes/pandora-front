@@ -25,7 +25,6 @@ export default function UserRole() {
   };
 
   const actionActiveInactive = (index, stateItem, stateValue) => {
-    console.log(index, stateItem, stateValue);
     setData((old) =>
       old.map((item, _index) => {
         if (_index == index) {
@@ -72,7 +71,8 @@ export default function UserRole() {
           body={data}
           checked
           number
-          toggleItems={[{ 0: "Estado", 1: actionActiveInactive }]}
+          toggleItems={[{ 0: "Estado", 1: actionActiveInactive, 2: true }]}
+          notEditItems={["Usuario", "Correo", "Nombre"]}
           edit
           remove
           id="user"

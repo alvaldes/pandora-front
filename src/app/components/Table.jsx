@@ -26,7 +26,8 @@ export const Table = ({
   remove = false,
   editRm = false,
   search = false,
-  toggleItems = [],
+  toggleItems = [], // { 0: key, 1: function, 2: true/false (disabled) }
+  notEditItems = [],
   children,
 }) => {
   const bodyLng = Children.toArray(children)?.length;
@@ -44,6 +45,7 @@ export const Table = ({
   const [btnRm, setBtnRm] = useState(false);
   const [select, setSelect] = useState(Array(bodyLng).fill(false));
   const [viewModal, setViewModal] = useState([]);
+  const [temp, setTemp] = useState([]);
   const selectedAll = () => {
     setSelect((old) => old.map(() => !all));
     setAll(!all);
@@ -122,14 +124,7 @@ export const Table = ({
               {header?.map((value, index) => (
                 <th
                   key={index}
-                  className={`text-lg whitespace-normal font-medium py-[2px] ${
-                    toggleItems &&
-                    toggleItems.some(
-                      (value) =>
-                        value[0].toLowerCase() === header[index].toLowerCase()
-                    ) &&
-                    "text-center"
-                  }`}
+                  className={`text-lg whitespace-normal font-medium py-[2px] text-center`}
                 >
                   {value}
                 </th>
@@ -200,8 +195,13 @@ export const Table = ({
                               <input
                                 name={header[index1]}
                                 type="checkbox"
-                                className="toggle toggle-sm"
+                                className="toggle toggle-sm toggle-primary"
                                 data-toggle="ACTIVE,INACTIVE"
+                                disabled={
+                                  toggleItems.filter(
+                                    (value) => value[0] === header[index1]
+                                  )[0][2]
+                                }
                                 onChange={({ target }) =>
                                   toggleItems.filter(
                                     (value) => value[0] === target.name
@@ -296,6 +296,13 @@ export const Table = ({
                                   value: `${val.props.children[index].props.children}`,
                                 })),
                               ]);
+                              setTemp([
+                                val.key,
+                                ...header.map((td, index) => ({
+                                  key: `${td}`,
+                                  value: `${val.props.children[index].props.children}`,
+                                })),
+                              ]);
                               window[`MODAL_EDIT_${id}`].showModal();
                             }}
                           >
@@ -330,13 +337,13 @@ export const Table = ({
           </tbody>
         </table>
       </div>
-      <Modal btnCLoseX={() => setViewModal({})} id={`VIEW_${id}`}>
+      <Modal btnCLoseX={() => setViewModal([])} id={`VIEW_${id}`}>
         <div className="text-center border-b-2 border-primary p-2 mb-6">
           <h3 className="font-bold text-lg uppercase">
             Información de Usuario:
           </h3>
         </div>
-        <div className="flex flex-col gap-4 border-2 border-primary rounded p-4 my-4">
+        <div className="flex flex-col gap-4 border-2 border-primary rounded p-4 my-4 overflow-y-auto">
           {Object.keys(viewModal).length > 0 &&
             viewModal?.map((info, index) => (
               <div key={index}>
@@ -353,31 +360,62 @@ export const Table = ({
         </div>
       </Modal>
       <Modal
-        btnCLoseX={() => setViewModal({})}
+        btnCLoseX={() => {
+          setViewModal([]);
+          setTemp([]);
+        }}
         id={`EDIT_${id}`}
-        btnAccept={() => console.log(viewModal[0])}
+        btnAccept={() => {
+          temp.some((item, _index) =>
+            _index == 0
+              ? item !== viewModal[_index]
+              : item.value !== viewModal[_index].value
+          ) && console.log(viewModal[0]);
+        }}
       >
         <div className="text-center border-b-2 border-primary p-2 mb-6">
           <h3 className="font-bold text-lg uppercase">
-            Información de Usuario:
+            Editar Información de Usuario: <br /> (
+            {
+              viewModal
+                .slice(1)
+                .filter((item) => item.key.toLowerCase() === "nombre")[0]?.value
+            }
+            )
           </h3>
         </div>
-        <div className="flex flex-col gap-4 border-2 border-primary rounded p-4 my-4">
+        <div className="flex flex-col gap-4 border-2 border-primary rounded p-4 my-4 overflow-y-auto">
           {Object.keys(viewModal).length > 0 &&
-            viewModal?.slice(1)?.map((info, index) => (
-              <div key={index} className="grid grid-cols-2">
-                <label className="label justify-start flex gap-2">
-                  <span className="label-text text-base text-md">
-                    {info.key}:
-                  </span>
-                </label>
-                <input
-                  className="input input-primary input-md"
-                  value={info.value}
-                  onChange={() => {}}
-                />
-              </div>
-            ))}
+            viewModal?.slice(1)?.map((info, index) => {
+              return (
+                toggleItems.some((item) => item[0] === info.key) ||
+                notEditItems.some((item) => item === info.key) || (
+                  <div key={index} className="grid grid-cols-2">
+                    <label className="label justify-start flex gap-2">
+                      <span className="label-text text-base text-md">
+                        {info.key}:
+                      </span>
+                    </label>
+                    <input
+                      name={info.key}
+                      className="input input-primary input-md"
+                      value={info.value}
+                      onChange={({ target }) => {
+                        setViewModal((old) => [
+                          old[0],
+                          ...old.slice(1).map((item, _index) => {
+                            if (_index == index) {
+                              return { key: item.key, value: target.value };
+                            }
+                            return item;
+                          }),
+                        ]);
+                      }}
+                    />
+                  </div>
+                )
+              );
+            })}
         </div>
       </Modal>
     </div>

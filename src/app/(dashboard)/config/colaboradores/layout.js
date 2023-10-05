@@ -63,6 +63,7 @@ function CollaboratorLayout({ children }) {
           {
             0: "Estado 1",
             1: actionActiveInactive,
+            2: false,
           },
         ]}
       />

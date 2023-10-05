@@ -134,10 +134,8 @@ export default function Home() {
       <div className="w-full py-4">
         <Table
           header={header}
-          checked
+          //checked
           view
-          edit
-          remove
           search={onChangeFilter}
           number
           title="Personal del Departamento Seleccionado"
@@ -173,10 +171,8 @@ export default function Home() {
       <div className="w-full py-8">
         <Table
           title="Colaboradores del Departamento Seleccionado"
-          checked
+          //checked
           view
-          edit
-          remove
           search={onChangeFilter}
           number
           id="cDpto"
