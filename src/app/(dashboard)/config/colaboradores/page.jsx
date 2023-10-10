@@ -1,9 +1,9 @@
-import { Table } from "@/app/components/Table";
+import { Table } from "@/app/components/Table/Table";
 
 export default function Collaborator({ id = "", list = [], ...other }) {
   return (
-    <Table id={id} {...other}>
-      {list?.map((data) => (
+    <Table id={id} body={list} {...other}>
+      {/*list?.map((data) => (
         <tr key={data.ID}>
           {Object.values(data)
             .filter((__, index) => !(Object.keys(data)[index] === "ID"))
@@ -13,7 +13,7 @@ export default function Collaborator({ id = "", list = [], ...other }) {
               </td>
             ))}
         </tr>
-      ))}
+      ))*/}
     </Table>
   );
 }

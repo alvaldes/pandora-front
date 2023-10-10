@@ -1,5 +1,5 @@
 "use client";
-import { Table } from "@/app/components/Table";
+import { Table } from "@/app/components/Table/Table";
 import axios from "axios";
 //import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -135,6 +135,13 @@ export default function Home() {
         <Table
           header={header}
           //checked
+          body={prueba?.filter((item) =>
+            Object.values(item).some((value) =>
+              `${value}`
+                .toLowerCase()
+                .includes(filter.pDpto.search.toLowerCase())
+            )
+          )}
           view
           search={onChangeFilter}
           number
@@ -142,7 +149,7 @@ export default function Home() {
           id="pDpto"
         >
           {/* always put the id, it must match the variable intended for the search, and it is used to create the info modal, etc. */}
-          {prueba
+          {/*prueba
             ?.filter((item) =>
               //ID in position 0 always
               Object.values(item).some((value) =>
@@ -165,20 +172,27 @@ export default function Home() {
                     </td>
                   ))}
               </tr>
-            ))}
+            ))*/}
         </Table>
       </div>
       <div className="w-full py-8">
         <Table
           title="Colaboradores del Departamento Seleccionado"
           //checked
+          body={collaboratorData?.filter((item) =>
+            Object.values(item).some((value) =>
+              `${value}`
+                .toLowerCase()
+                .includes(filter.cDpto.search.toLowerCase())
+            )
+          )}
           view
           search={onChangeFilter}
           number
           id="cDpto"
           header={collaboratorHeader}
         >
-          {collaboratorData
+          {/*collaboratorData
             ?.filter((item) =>
               Object.values(item).some((value) =>
                 `${value}`
@@ -200,7 +214,7 @@ export default function Home() {
                     </td>
                   ))}
               </tr>
-            ))}
+            ))*/}
         </Table>
       </div>
     </main>

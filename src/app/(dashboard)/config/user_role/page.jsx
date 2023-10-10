@@ -1,5 +1,5 @@
 "use client";
-import { Table } from "@/app/components/Table";
+import { Table } from "@/app/components/Table/Table";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -68,7 +68,13 @@ export default function UserRole() {
         <Table
           title={`Gestion de Usuarios y Roles`}
           header={header}
-          body={data}
+          body={data?.filter((item) =>
+            Object.values(item).some((value) =>
+              `${value}`
+                .toLowerCase()
+                .includes(filter.user.search.toLowerCase())
+            )
+          )}
           checked
           number
           toggleItems={[{ 0: "Estado", 1: actionActiveInactive, 2: true }]}
@@ -78,7 +84,7 @@ export default function UserRole() {
           id="user"
           search={onChangeFilter}
         >
-          {data
+          {/*data
             ?.filter((item) =>
               //ID in position 0 always
               Object.values(item).some((value) =>
@@ -97,7 +103,7 @@ export default function UserRole() {
                     </td>
                   ))}
               </tr>
-            ))}
+            ))*/}
         </Table>
       </div>
     </main>
