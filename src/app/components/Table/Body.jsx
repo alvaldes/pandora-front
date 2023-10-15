@@ -6,7 +6,7 @@ import { Checked } from "./Checked";
 
 export const Body = ({
   header,
-  body,
+  body: { body, id },
   toggleItems,
   iChecked: { isChecked, select, setSelect },
   isNumber,
@@ -53,8 +53,7 @@ export const Body = ({
                 isNumber && <th className="text-center">{index + 1}</th>
               }
               {
-                //Content table send from children props
-                //val.props.children.map((td, index1) =>
+                //Content table body data
                 Object.values(val)
                   ?.filter((__, index) => !(Object.keys(val)[index] === "ID"))
                   ?.map((td, index1) =>
@@ -63,7 +62,6 @@ export const Body = ({
                       (value) =>
                         value[0].toLowerCase() === header[index1].toLowerCase()
                     ) ? (
-                      // (!important): toggleItems is obtaining by default the active/inactive variables (if necessary modify to obtain true/false)
                       <th key={index1}>
                         <Toggle
                           name={header[index1]}
@@ -97,7 +95,7 @@ export const Body = ({
                       className="btn-info"
                       onClick={() => {
                         setViewModal(
-                          header.map((td, index) => ({
+                          header.map((td) => ({
                             key: `${td}`,
                             value: `${val[td]}`,
                           }))
@@ -110,35 +108,40 @@ export const Body = ({
                   </th>
                 )
               }
-              {isEdit && isRemove && isComboButton && (
-                <th className="relative">
-                  <ButtonComboBox
-                    action={editRemove[index]}
-                    btnCbox={{
-                      className: "btn-primary",
-                      onClick: () =>
-                        setEditRemove(
-                          editRemove.map((val, index1) =>
-                            index == index1 ? !val : false
-                          )
-                        ),
-                      children: "Action",
-                    }}
-                    listBtn={[
-                      {
-                        className: "btn-warning",
-                        onClick: () => console.log(val.ID),
-                        children: <LuEdit2 className="text-warning-content" />,
-                      },
-                      {
-                        className: "btn-error",
-                        onClick: () => console.log(val.ID),
-                        children: <LuTrash2 className="text-error-content" />,
-                      },
-                    ]}
-                  />
-                </th>
-              )}
+              {
+                // Combo Button from remove and edit in one column
+                isEdit && isRemove && isComboButton && (
+                  <th className="relative">
+                    <ButtonComboBox
+                      action={editRemove[index]}
+                      btnCbox={{
+                        className: "btn-primary",
+                        onClick: () =>
+                          setEditRemove(
+                            editRemove.map((val, index1) =>
+                              index == index1 ? !val : false
+                            )
+                          ),
+                        children: "Action",
+                      }}
+                      listBtn={[
+                        {
+                          className: "btn-warning",
+                          onClick: () => console.log(val.ID),
+                          children: (
+                            <LuEdit2 className="text-warning-content" />
+                          ),
+                        },
+                        {
+                          className: "btn-error",
+                          onClick: () => console.log(val.ID),
+                          children: <LuTrash2 className="text-error-content" />,
+                        },
+                      ]}
+                    />
+                  </th>
+                )
+              }
               {
                 // Button action edit content row
                 ((isEdit && !isRemove) || (isEdit && !isComboButton)) && (
@@ -174,7 +177,10 @@ export const Body = ({
                   <th className="text-lg font-medium text-center w-max py-[2px]">
                     <Button
                       className="btn-error"
-                      onClick={() => console.log(val.ID)}
+                      onClick={() => {
+                        setViewModal(val.ID);
+                        window[`MODAL_ALERT_REMOVE`].showModal();
+                      }}
                     >
                       <LuTrash2 className="text-error-content" />
                     </Button>

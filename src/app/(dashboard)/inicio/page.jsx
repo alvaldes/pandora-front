@@ -42,17 +42,17 @@ export default function Home() {
   const prueba = [
     {
       ID: 3128,
-      IDJob: 3733,
+      "No. Trabajador": 3733,
       CI: "82052607258",
-      Name: "Diana Perez Armayor",
-      DepartamentHR: "Fac. Ing. Industrial",
+      Nombre: "Diana Perez Armayor",
+      "Dpto Recursos Humanos": "Fac. Ing. Industrial",
     },
     {
       ID: 3129,
-      IDJob: 3710,
+      "No. Trabajador": 3710,
       CI: "96277013847",
-      Name: "Rosaura Martinez Cuellar",
-      DepartamentHR: "Fac. Ing. Informatica",
+      Nombre: "Rosaura Martinez Cuellar",
+      "Dpto Recursos Humanos": "Fac. Ing. Informatica",
     },
   ];
 
