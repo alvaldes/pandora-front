@@ -1,11 +1,11 @@
 import { useId } from "react";
-import { Modal } from "../../Modal";
+import { Modal } from "@/app/components/Modal";
 
-export const Alert = ({
+export const Message = ({
   message = "",
   accept = () => {},
   cancel = () => {},
-  params: { type },
+  params: { type = "" },
 }) => {
   const key = useId();
   return (
@@ -13,7 +13,7 @@ export const Alert = ({
       <div className="text-center border-b-2 border-primary p-2 mb-6">
         <h3 className="font-bold text-lg uppercase">{`acción solicitada (${type})`}</h3>
       </div>
-      <div className="flex flex-col gap-4 border-2 border-primary rounded p-4 my-4 overflow-y-auto">
+      <div className="flex flex-col gap-4 p-4 my-4 overflow-y-auto">
         {message}
       </div>
     </Modal>

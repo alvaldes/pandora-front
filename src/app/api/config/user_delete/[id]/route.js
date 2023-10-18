@@ -2,8 +2,7 @@ import axios from "axios";
 import { cookies } from "next/dist/client/components/headers";
 import { NextResponse } from "next/server";
 
-// Method GET
-export async function GET() {
+export async function GET(request, { params }) {
   const cookieStore = cookies();
   const token = cookieStore.get("pandoraToken");
   if (!token) {
@@ -12,11 +11,14 @@ export async function GET() {
     });
   }
 
-  const result = await axios.get(process.env.PANDORA_API + `/config/user`, {
-    headers: {
-      Authorization: "Bearer " + token.value,
-    },
-  });
+  const result = await axios.delete(
+    process.env.PANDORA_API + `/config/user/${params.id}`,
+    {
+      headers: {
+        Authorization: "Bearer " + token.value,
+      },
+    }
+  );
   if (result.status == 200) {
     return NextResponse.json(result.data);
   }

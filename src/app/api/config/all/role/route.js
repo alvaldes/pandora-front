@@ -2,7 +2,6 @@ import axios from "axios";
 import { cookies } from "next/dist/client/components/headers";
 import { NextResponse } from "next/server";
 
-// Method GET
 export async function GET() {
   const cookieStore = cookies();
   const token = cookieStore.get("pandoraToken");
@@ -12,7 +11,7 @@ export async function GET() {
     });
   }
 
-  const result = await axios.get(process.env.PANDORA_API + `/config/user`, {
+  const result = await axios.get(process.env.PANDORA_API + `/config/role`, {
     headers: {
       Authorization: "Bearer " + token.value,
     },

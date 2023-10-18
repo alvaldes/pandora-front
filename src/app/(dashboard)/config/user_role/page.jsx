@@ -1,5 +1,6 @@
 "use client";
 import { Table } from "@/app/components/Table/Table";
+import { FormularyEdit } from "@/app/formulary/user_role";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -7,7 +8,7 @@ export default function UserRole() {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const header = ["Usuario", "Role", "Correo", "Nombre", "Cargo", "Estado"];
+  const header = ["Usuario", "Rol", "Correo", "Nombre", "Cargo", "Estado"];
   const [filter, setFilter] = useState({
     user: {
       search: "",
@@ -35,6 +36,20 @@ export default function UserRole() {
     );
   };
 
+  const removeOnClic = async (ID) => {
+    try {
+      console.log(`(dashboard)/config/user_role/page.jsx ${ID}`);
+      const response = await axios.get(`/api/config/user_delete/${ID}`);
+      if (response.status == 200) {
+        console.log(`api/config/user_role/route.js ${ID}`);
+        console.log(response.data);
+      }
+    } catch (error) {
+      const { response } = error;
+      console.log(response);
+    }
+  };
+
   useEffect(() => {
     const loadAllUsers = async () => {
       const response = await axios.get("/api/config/user_role");
@@ -44,7 +59,7 @@ export default function UserRole() {
           tableData[i] = {
             ID: d.id,
             Usuario: d.username,
-            Role: d.role.roleName,
+            Rol: d.role.roleName,
             Correo: d.email,
             Nombre: `${d.name} ${d.lastname}`,
             Cargo: d.position,
@@ -78,33 +93,12 @@ export default function UserRole() {
           checked
           number
           toggleItems={[{ 0: "Estado", 1: actionActiveInactive, 2: true }]}
-          notEditItems={["Usuario", "Correo", "Nombre"]}
           edit
-          remove
+          remove={removeOnClic}
           id="user"
           search={onChangeFilter}
-        >
-          {/*data
-            ?.filter((item) =>
-              //ID in position 0 always
-              Object.values(item).some((value) =>
-                `${value}`
-                  .toLowerCase()
-                  .includes(filter.user.search.toLowerCase())
-              )
-            )
-            ?.map((data) => (
-              <tr key={data.ID}>
-                {Object.values(data)
-                  .filter((__, index) => !(Object.keys(data)[index] === "ID"))
-                  ?.map((value, index) => (
-                    <td key={index} name={Object.keys(data)[index + 1]}>
-                      {value}
-                    </td>
-                  ))}
-              </tr>
-            ))*/}
-        </Table>
+          formulary={<FormularyEdit />}
+        />
       </div>
     </main>
   );

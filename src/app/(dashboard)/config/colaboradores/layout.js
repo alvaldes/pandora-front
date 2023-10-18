@@ -5,12 +5,12 @@ import Collaborator from "./page";
 function CollaboratorLayout({ children }) {
   const [tabIndex, setTabIndex] = useState(0);
   const [list0, setList0] = useState([
-    { ID: 15, 0: "hola", "Estado 1": "Inactive" },
-    { ID: 16, 0: "mundo", "Estado 1": "Inactive" },
+    { ID: 15, "datos de prueba": "hola", "Estado 1": "Inactive" },
+    { ID: 16, "datos de prueba": "mundo", "Estado 1": "Inactive" },
   ]);
   const [list1, setList1] = useState([
-    { ID: 17, 0: "hola1", "Estado 1": "Active" },
-    { ID: 18, 0: "mundo1", "Estado 1": "Active" },
+    { ID: 17, "datos de prueba": "hola1", "Estado 1": "Active" },
+    { ID: 18, "datos de prueba": "mundo1", "Estado 1": "Active" },
   ]);
 
   const actionActiveInactive = (index, stateItem, stateValue) => {
@@ -57,7 +57,7 @@ function CollaboratorLayout({ children }) {
         title="Prueba"
         header={["datos de prueba", "Estado 1"]}
         search={() => {}}
-        checked
+        //checked
         view
         toggleItems={[
           {

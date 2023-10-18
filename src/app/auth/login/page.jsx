@@ -39,20 +39,24 @@ const LoginPage = () => {
             message: "Inicio de sección",
           });
           router.push("/");
-        } else
-          (response.status == 401 &&
-            setIsAlert(true) &&
-            setError({
-              isError: true,
-              message: "Usuaro o contraseña incorrecto",
-            })) ||
-            (setIsAlert(true) &&
-              setError({ isError: true, message: "Fallo de conexión" }));
+        } else if (response.status == 401) {
+          setIsAlert(true);
+          setError({
+            isError: true,
+            message: "Usuaro o contraseña incorrecto",
+          });
+        } else {
+          setIsAlert(true);
+          setError({ isError: true, message: "Fallo de conexión" });
+        }
       })
       .catch((error) => {
         setIsLoading(false);
-        setIsAlert(true);
-        setError({ isError: true, message: "Error inesperado" });
+        const { response } = error;
+        if (response.status == 500) {
+          setIsAlert(true);
+          setError({ isError: true, message: "Fallo de conexión" });
+        }
       });
     /*if (result.status == 200) {
       router.push("/");
@@ -67,7 +71,6 @@ const LoginPage = () => {
       return () => clearTimeout(timer);
     }
   }, [error, isAlert]);
-  console.log({ error, isAlert });
   return (
     <section className="bg-base-300 h-screen">
       <div className="flex">
@@ -114,9 +117,12 @@ const LoginPage = () => {
                   }
                   name="username"
                   id="username"
-                  className="input input-bordered w-full"
+                  className={`input input-bordered w-full ${
+                    isLoading && "input-disabled"
+                  }`}
                   autoFocus
                   required={true}
+                  disabled={isLoading}
                 />
               </div>
               <div>
@@ -139,8 +145,11 @@ const LoginPage = () => {
                   }
                   name="password"
                   id="password"
-                  className="input input-bordered w-full"
+                  className={`input input-bordered w-full ${
+                    isLoading && "input-disabled"
+                  }`}
                   required={true}
+                  disabled={isLoading}
                 />
                 {/* <button onClick={togglePasswordVisiblity}>
                   {passwordShown ? 'Hide' : 'Show'}
@@ -162,6 +171,7 @@ const LoginPage = () => {
                   className={`btn btn-primary w-full ${
                     isLoading && "btn-disabled"
                   }`}
+                  disabled={isLoading}
                 >
                   {isLoading ? (
                     <div className="flex justify-center align-center">

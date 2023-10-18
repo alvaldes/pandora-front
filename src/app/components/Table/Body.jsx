@@ -94,12 +94,7 @@ export const Body = ({
                     <Button
                       className="btn-info"
                       onClick={() => {
-                        setViewModal(
-                          header.map((td) => ({
-                            key: `${td}`,
-                            value: `${val[td]}`,
-                          }))
-                        );
+                        setViewModal(body[index]);
                         window[`MODAL_VIEW_${id}`].showModal();
                       }}
                     >
@@ -127,14 +122,21 @@ export const Body = ({
                       listBtn={[
                         {
                           className: "btn-warning",
-                          onClick: () => console.log(val.ID),
+                          onClick: () => {
+                            setViewModal(body[index]);
+                            setTemp(body[index]);
+                            window[`MODAL_EDIT_${id}`].showModal();
+                          },
                           children: (
                             <LuEdit2 className="text-warning-content" />
                           ),
                         },
                         {
                           className: "btn-error",
-                          onClick: () => console.log(val.ID),
+                          onClick: () => {
+                            setViewModal(val);
+                            window[`MODAL_ALERT_REMOVE`].showModal();
+                          },
                           children: <LuTrash2 className="text-error-content" />,
                         },
                       ]}
@@ -149,22 +151,15 @@ export const Body = ({
                     <Button
                       className="btn-warning"
                       onClick={() => {
-                        setViewModal([
-                          val.ID,
-                          ...header.map((td) => ({
-                            key: `${td}`,
-                            value: `${val[td]}`,
-                          })),
-                        ]);
-                        setTemp([
-                          val.ID,
-                          ...header.map((td) => ({
-                            key: `${td}`,
-                            value: `${val[td]}`,
-                          })),
-                        ]);
+                        setViewModal(val);
+                        setTemp(val);
                         window[`MODAL_EDIT_${id}`].showModal();
                       }}
+                      disabled={
+                        typeof val["Estado"] === "string"
+                          ? !(val["Estado"].toUpperCase() === "ACTIVE")
+                          : !val["Estado"]
+                      }
                     >
                       <LuEdit2 className="text-warning-content" />
                     </Button>
@@ -178,9 +173,14 @@ export const Body = ({
                     <Button
                       className="btn-error"
                       onClick={() => {
-                        setViewModal(val.ID);
+                        setViewModal(val);
                         window[`MODAL_ALERT_REMOVE`].showModal();
                       }}
+                      disabled={
+                        typeof val["Estado"] === "string"
+                          ? !(val["Estado"].toUpperCase() === "ACTIVE")
+                          : !val["Estado"]
+                      }
                     >
                       <LuTrash2 className="text-error-content" />
                     </Button>
