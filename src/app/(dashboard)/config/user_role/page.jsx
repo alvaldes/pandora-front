@@ -94,6 +94,7 @@ export default function UserRole() {
           number={1}
           toggleItems={[{ 0: "Estado", 1: actionActiveInactive, 2: true }]}
           edit
+          //view
           remove={removeOnClic}
           id="user"
           search={onChangeFilter}

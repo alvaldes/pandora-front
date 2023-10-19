@@ -16,6 +16,29 @@ export const ModalsActions = ({
   const [isAlert, setIsAlert] = useState(false);
   const [error, setError] = useState({ isError: false, message: "" });
 
+  const value = (item) => {
+    if (typeof item === "string") {
+      switch (item.toUpperCase()) {
+        case "ACTIVE":
+          return "Activo";
+        case "INACTIVE":
+          return "Inactivo";
+        case "DELETED":
+          return "Eliminado";
+        default:
+          return item;
+      }
+    }
+    switch (item) {
+      case true:
+        return "Activo";
+      case false:
+        return "Inactivo";
+      default:
+        return item;
+    }
+  };
+
   useEffect(() => {
     if (isAlert) {
       const timer = setTimeout(() => {
@@ -46,7 +69,7 @@ export const ModalsActions = ({
                           {key}:
                         </span>
                         <span className="label-text text-base-content text-md font-semibold">
-                          {viewModal[key]}
+                          {value(viewModal[key])}
                         </span>
                       </label>
                     </div>
