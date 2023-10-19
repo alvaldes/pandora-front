@@ -1,6 +1,6 @@
 "use client";
 import { Modal } from "@/app/components/Modal";
-import { Message } from "./AlertAction";
+import { Message } from "./MessageAction";
 import { useEffect, useState } from "react";
 import { Alert } from "@/app/components/Alert";
 
@@ -95,7 +95,10 @@ export const ModalsActions = ({
       {/* Message Edit */}
       <Message
         params={{ type: "EDIT" }}
-        accept={() => console.log(viewModal)}
+        accept={() => {
+          console.log(viewModal);
+          //edit(viewModal);
+        }}
         cancel={() => {
           setViewModal({});
           setTemp({});
@@ -107,7 +110,7 @@ export const ModalsActions = ({
       <Message
         params={{ type: "REMOVE" }}
         accept={() => {
-          remove(viewModal.ID)
+          remove(viewModal.ID);
         }}
         cancel={() => {
           setViewModal({});

@@ -91,7 +91,7 @@ export default function UserRole() {
             )
           )}
           checked
-          number
+          number={1}
           toggleItems={[{ 0: "Estado", 1: actionActiveInactive, 2: true }]}
           edit
           remove={removeOnClic}

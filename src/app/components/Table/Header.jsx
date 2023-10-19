@@ -19,17 +19,39 @@ export const Header = ({
     (isView ? 1 : 0) +
     (isEdit ? 1 : 0) +
     (isRemove ? 1 : 0) +
-    (isComboButton ? 1 : 0);
+    (isComboButton && isEdit && isRemove ? -1 : 0);
   const [all, setAll] = useState(false);
   const [btnRm, setBtnRm] = useState(false);
   const selectedAll = () => {
-    setSelect((old) => old.map(() => !all));
+    setSelect((old) =>
+      old.map((__, _index) =>
+        (
+          typeof body[_index]["Estado"] === "string"
+            ? body[_index]["Estado"]?.toUpperCase() === "ACTIVE"
+            : body[_index]["Estado"]
+        )
+          ? !all
+          : false
+      )
+    );
     setAll(!all);
   };
+
   useEffect(() => {
     if (length > 0) {
       const cant = select.filter((val) => val);
-      cant?.length == length ? setAll(true) : setAll(false);
+      const disable = body.reduce(
+        (accumulator, currentValue) =>
+          (accumulator += (
+            typeof currentValue["Estado"] === "string"
+              ? !(currentValue["Estado"].toUpperCase() === "ACTIVE")
+              : !currentValue["Estado"]
+          )
+            ? 1
+            : 0),
+        0
+      );
+      cant?.length == length - disable ? setAll(true) : setAll(false);
       cant?.length > 0 ? setBtnRm(true) : setBtnRm(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -43,11 +65,7 @@ export const Header = ({
               <button
                 className="btn btn-sm self-end"
                 onClick={() => {
-                  const temp = [
-                    //...Children.toArray(children)?.map((val) => val.key),
-                    ...body?.map((val) => val.ID),
-                  ];
-                  console.log(temp.filter((__, index) => select[index]));
+                  console.log(body.filter((__, index) => select[index]));
                 }}
               >
                 <LuTrash2 /> Eliminar {all ? "todos" : "seleccionados"}

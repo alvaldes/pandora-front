@@ -175,7 +175,7 @@ const LoginPage = () => {
                 >
                   {isLoading ? (
                     <div className="flex justify-center align-center">
-                      <span className="loading loading-spinner text-neutral-content loading-md"></span>
+                      <span className="loading loading-spinner text-base-content loading-md"></span>
                     </div>
                   ) : (
                     "Iniciar Sesión"

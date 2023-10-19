@@ -23,7 +23,7 @@ export const Body = ({
     (isView ? 1 : 0) +
     (isEdit ? 1 : 0) +
     (isRemove ? 1 : 0) +
-    (isComboButton ? 1 : 0);
+    (isComboButton && isEdit && isRemove ? -1 : 0);
   return (
     <tbody>
       {(body.length > 0 &&
@@ -44,13 +44,18 @@ export const Body = ({
                           )
                         )
                       }
+                      disabled={
+                        typeof val["Estado"] === "string"
+                          ? !(val["Estado"].toUpperCase() === "ACTIVE")
+                          : !val["Estado"]
+                      }
                     />
                   </th>
                 )
               }
               {
                 //Section number position - list items
-                isNumber && <th className="text-center">{index + 1}</th>
+                isNumber && <th className="text-center">{isNumber + index}</th>
               }
               {
                 //Content table body data
@@ -118,13 +123,17 @@ export const Body = ({
                             )
                           ),
                         children: "Action",
+                        disabled:
+                          typeof val["Estado"] === "string"
+                            ? !(val["Estado"].toUpperCase() === "ACTIVE")
+                            : !val["Estado"],
                       }}
                       listBtn={[
                         {
                           className: "btn-warning",
                           onClick: () => {
-                            setViewModal(body[index]);
-                            setTemp(body[index]);
+                            setViewModal(val);
+                            setTemp(val);
                             window[`MODAL_EDIT_${id}`].showModal();
                           },
                           children: (

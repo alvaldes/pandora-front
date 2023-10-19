@@ -12,7 +12,7 @@ import { ModalsActions } from "./Other/ModalsActions";
  * @param {*} view true | false
  * @param {*} edit function | false
  * @param {*} remove function | false
- * @param {*} number true | false
+ * @param {*} number number(1+) | false
  *
  * @returns Table component
  */
@@ -22,7 +22,7 @@ export const Table = ({
   title,
   checked = false,
   header = [],
-  number,
+  number = false,
   view = false,
   edit = false,
   remove = false,

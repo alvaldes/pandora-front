@@ -144,36 +144,10 @@ export default function Home() {
           )}
           view
           search={onChangeFilter}
-          number
+          number={1}
           title="Personal del Departamento Seleccionado"
           id="pDpto"
-        >
-          {/* always put the id, it must match the variable intended for the search, and it is used to create the info modal, etc. */}
-          {/*prueba
-            ?.filter((item) =>
-              //ID in position 0 always
-              Object.values(item).some((value) =>
-                `${value}`
-                  .toLowerCase()
-                  .includes(filter.pDpto.search.toLowerCase())
-              )
-            )
-            ?.map((item) => (
-              <tr key={item.ID}>
-                {Object.values(item)
-                  .filter((__, index) => !(Object.keys(item)[index] === "ID"))
-                  ?.map((value, index) => (
-                    <td
-                      key={index}
-                      className="text-center"
-                      name={Object.keys(item)[index + 1]}
-                    >
-                      {value}
-                    </td>
-                  ))}
-              </tr>
-            ))*/}
-        </Table>
+        ></Table>
       </div>
       <div className="w-full py-8">
         <Table
@@ -188,7 +162,7 @@ export default function Home() {
           )}
           view
           search={onChangeFilter}
-          number
+          number={1}
           id="cDpto"
           header={collaboratorHeader}
         >
