@@ -1,8 +1,11 @@
+"use client";
 import { LuEdit2, LuEye, LuTrash2 } from "react-icons/lu";
 import { Button } from "./Button";
 import { ButtonComboBox } from "./BottonComboBox";
 import { Toggle } from "./Toggle";
 import { Checked } from "./Checked";
+import Pagination from "./Pagination";
+import { useState } from "react";
 
 export const Body = ({
   header,
@@ -24,6 +27,9 @@ export const Body = ({
     (isEdit ? 1 : 0) +
     (isRemove ? 1 : 0) +
     (isComboButton && isEdit && isRemove ? -1 : 0);
+  const [dataPerPage, setDataPerPage] = useState(6);
+  const [currentPage, setCurrentPage] = useState(1);
+
   return (
     <tbody>
       {(body.length > 0 &&
@@ -202,6 +208,18 @@ export const Body = ({
           </th>
         </tr>
       )}
+      <tr className="text-center">
+        <th colSpan={`${hlength}`} className="py-4">
+          <Pagination
+            totalData={body.length}
+            dataPerPage={dataPerPage}
+            currentPage={currentPage}
+            setCurrentPage={(uptPage) => {
+              setCurrentPage(uptPage);
+            }}
+          />
+        </th>
+      </tr>
     </tbody>
   );
 };

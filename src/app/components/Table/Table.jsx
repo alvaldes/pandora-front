@@ -4,6 +4,7 @@ import { Search } from "./Search";
 import { Header } from "./Header";
 import { Body } from "./Body";
 import { ModalsActions } from "./Other/ModalsActions";
+import Pagination from "./Pagination";
 
 /**
  *
@@ -36,6 +37,7 @@ export const Table = ({
   const [select, setSelect] = useState(Array(body.length).fill(false));
   const [viewModal, setViewModal] = useState({});
   const [temp, setTemp] = useState({});
+
   return (
     <div className="flex flex-col">
       <div className={`grid grid-cols-1 md:grid-cols-2`}>
