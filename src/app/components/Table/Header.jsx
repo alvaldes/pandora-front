@@ -42,13 +42,11 @@ export const Header = ({
       const cant = select.filter((val) => val);
       const disable = body.reduce(
         (accumulator, currentValue) =>
-          (accumulator += (
-            typeof currentValue["Estado"] === "string"
-              ? !(currentValue["Estado"].toUpperCase() === "ACTIVE")
-              : !currentValue["Estado"]
-          )
-            ? 1
-            : 0),
+          (accumulator +=
+            typeof currentValue["Estado"] === "string" &&
+            currentValue["Estado"].toUpperCase() === "DELETED"
+              ? 1
+              : 0),
         0
       );
       cant?.length == length - disable ? setAll(true) : setAll(false);

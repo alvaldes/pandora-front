@@ -45,9 +45,8 @@ export const Body = ({
                         )
                       }
                       disabled={
-                        typeof val["Estado"] === "string"
-                          ? !(val["Estado"].toUpperCase() === "ACTIVE")
-                          : !val["Estado"]
+                        typeof val["Estado"] === "string" &&
+                        val["Estado"].toUpperCase() === "DELETED"
                       }
                     />
                   </th>
@@ -124,9 +123,8 @@ export const Body = ({
                           ),
                         children: "Action",
                         disabled:
-                          typeof val["Estado"] === "string"
-                            ? !(val["Estado"].toUpperCase() === "ACTIVE")
-                            : !val["Estado"],
+                          typeof val["Estado"] === "string" &&
+                          val["Estado"].toUpperCase() === "DELETED",
                       }}
                       listBtn={[
                         {
@@ -165,9 +163,8 @@ export const Body = ({
                         window[`MODAL_EDIT_${id}`].showModal();
                       }}
                       disabled={
-                        typeof val["Estado"] === "string"
-                          ? !(val["Estado"].toUpperCase() === "ACTIVE")
-                          : !val["Estado"]
+                        typeof val["Estado"] === "string" &&
+                        val["Estado"].toUpperCase() === "DELETED"
                       }
                     >
                       <LuEdit2 className="text-warning-content" />
@@ -186,9 +183,8 @@ export const Body = ({
                         window[`MODAL_ALERT_REMOVE`].showModal();
                       }}
                       disabled={
-                        typeof val["Estado"] === "string"
-                          ? !(val["Estado"].toUpperCase() === "ACTIVE")
-                          : !val["Estado"]
+                        typeof val["Estado"] === "string" &&
+                        val["Estado"].toUpperCase() === "DELETED"
                       }
                     >
                       <LuTrash2 className="text-error-content" />
