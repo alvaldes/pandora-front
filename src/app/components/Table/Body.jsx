@@ -29,12 +29,15 @@ export const Body = ({
     (isComboButton && isEdit && isRemove ? -1 : 0);
   const [dataPerPage, setDataPerPage] = useState(6);
   const [currentPage, setCurrentPage] = useState(1);
+  const lastIndex = currentPage * dataPerPage;
+  const firstIndex = lastIndex - dataPerPage;
+  const currentData = body.slice(firstIndex, lastIndex);
 
   return (
     <tbody>
       {(body.length > 0 &&
         //Children.toArray(children)?.map((val, index) => {
-        body?.map((val, index) => {
+        currentData?.map((val, index) => {
           return (
             <tr key={index} className={`${index % 2 && "bg-base-300"}`}>
               {
@@ -60,7 +63,9 @@ export const Body = ({
               }
               {
                 //Section number position - list items
-                isNumber && <th className="text-center">{isNumber + index}</th>
+                isNumber && (
+                  <th className="text-center">{firstIndex + index + 1}</th>
+                )
               }
               {
                 //Content table body data
