@@ -1,16 +1,16 @@
 import axios, { HttpStatusCode } from 'axios';
 import { serialize } from 'cookie';
 import jwtDecode from 'jwt-decode';
-import { NextResponse } from 'next/server';
 
 export async function POST(req) {
+  let respuesta;
   const { username, password } = await req.json();
-  const result = await axios.post(process.env.PANDORA_API + '/auth/login', {
+  await axios.post(process.env.PANDORA_API + '/auth/login', {
     username: username,
     password: password,
-  });
-  if (result.status == HttpStatusCode.Ok) {
-    const token = result.data.accessToken;
+  })
+  .then((res) => {
+    const token = res.data.accessToken;
     const decodedToken = jwtDecode(token);
     const expirationDate = new Date(decodedToken.exp * 1000);
     const serialized = serialize('pandoraToken', token, {
@@ -19,11 +19,17 @@ export async function POST(req) {
       path: '/',
     });
 
-    return new Response('login successfuly', {
+    respuesta = new Response('login successfuly', {
       status: 200,
       headers: { 'Set-Cookie': serialized },
     });
-  }
-
-  return NextResponse.status(401).json({ error: result.error });
+  })
+  .catch((err) => {
+    const {response} = err;
+    respuesta = new Response('login error', {
+      status: response.status,
+    });
+  });
+  
+  return respuesta;
 }

@@ -18,6 +18,8 @@ export const Body = ({
   isRemove,
   iComboButton: { isComboButton, editRemove, setEditRemove },
   iModal: { setViewModal, setTemp },
+  dataPerPage,
+  currentPage
 }) => {
   const hlength =
     header?.length +
@@ -27,8 +29,8 @@ export const Body = ({
     (isEdit ? 1 : 0) +
     (isRemove ? 1 : 0) +
     (isComboButton && isEdit && isRemove ? -1 : 0);
-  const [dataPerPage, setDataPerPage] = useState(6);
-  const [currentPage, setCurrentPage] = useState(1);
+  // const [dataPerPage, setDataPerPage] = useState(6);
+  // const [currentPage, setCurrentPage] = useState(1);
   const lastIndex = currentPage * dataPerPage;
   const firstIndex = lastIndex - dataPerPage;
   const currentData = body.slice(firstIndex, lastIndex);
@@ -213,7 +215,7 @@ export const Body = ({
           </th>
         </tr>
       )}
-      <tr className="text-center">
+      {/* <tr className="text-center">
         <th colSpan={`${hlength}`} className="py-4">
           <Pagination
             totalData={body.length}
@@ -224,7 +226,7 @@ export const Body = ({
             }}
           />
         </th>
-      </tr>
+      </tr> */}
     </tbody>
   );
 };

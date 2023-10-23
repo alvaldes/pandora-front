@@ -38,6 +38,9 @@ export const Table = ({
   const [viewModal, setViewModal] = useState({});
   const [temp, setTemp] = useState({});
 
+  const [dataPerPage, setDataPerPage] = useState(6);
+  const [currentPage, setCurrentPage] = useState(1);
+
   return (
     <div className="flex flex-col">
       <div className={`grid grid-cols-1 md:grid-cols-2`}>
@@ -75,9 +78,19 @@ export const Table = ({
             isRemove={remove}
             isView={view}
             toggleItems={toggleItems}
+            dataPerPage={dataPerPage}
+            currentPage={currentPage}
           />
         </table>
       </div>
+      <Pagination
+            totalData={body.length}
+            dataPerPage={dataPerPage}
+            currentPage={currentPage}
+            setCurrentPage={(uptPage) => {
+              setCurrentPage(uptPage);
+            }}
+          />
       <ModalsActions
         id={id}
         actions={{ edit, remove }}

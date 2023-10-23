@@ -66,7 +66,7 @@ const Pagination = ({
     return null;
   } else {
     return (
-      <div className="flex justify-center select-none">
+      <div className="flex justify-center select-none pt-4">
         <button
           onClick={Prev}
           className={`h-8 border-2 border-r-0 border-gray-800 px-4 rounded-l-lg ${

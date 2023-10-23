@@ -40,7 +40,7 @@ export default function DashboardLayout({ children, session }) {
           onClick={toggleSidebar}
         ></div>
         <div className="w-0 z-20 flex-none">
-          <Sidebar isSidebarOpen={isSidebarOpen}></Sidebar>
+          <Sidebar isSidebarOpen={isSidebarOpen} close={toggleSidebar} ></Sidebar>
         </div>
         <div className={`grow px-2 mx-auto overflow-y-auto max-w-[100vw]`}>
           {children}

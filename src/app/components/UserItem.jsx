@@ -30,20 +30,19 @@ export const UserItem = ({ className }) => {
   const getProfile = async () => {
     try {
       const response = await axios.get("/api/profile");
-      if (response.status == 200) {
-        setUser(response.data);
-        setIsLoading(false);
-      }
+      setUser(response.data);
+      setIsLoading(false);
     } catch (error) {
-      console.log(error);
-      if (error.response.status === 401) {
+      if (error.response.status == 401) {
         logout();
+      } else {
+        //TODO: add system alert
       }
     }
   };
 
   const logout = async (e) => {
-    e.preventDefault();
+    e?.preventDefault();
     const result = await axios.post("/api/auth/logout");
     if (result.status == 200) {
       router.push("/auth/login");

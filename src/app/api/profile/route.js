@@ -4,6 +4,7 @@ import { cookies } from 'next/dist/client/components/headers';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
+  let respuesta;
   const cookieStore = cookies();
   const token = cookieStore.get('pandoraToken');
   if (!token) {
@@ -13,17 +14,20 @@ export async function GET() {
   }
   const decodedToken = jwtDecode(token.value);
 
-  const result = await axios.get(
+  await axios.get(
     process.env.PANDORA_API + `/config/user/username/${decodedToken.sub}`,
     {
       headers: {
         Authorization: 'Bearer ' + token.value,
       },
     }
-  );
-  if (result.status == 200) {
-    return NextResponse.json(result.data);
-  }
+  )
+  .then((res) => {
+    respuesta = NextResponse.json(res.data);
+  })
+  .catch((err)=>{
+    respuesta = new Response(null, { status: err.response.status,});
+  });
 
-  return NextResponse.status(500).json({ error: 'Unexpected Error' });
+  return respuesta;
 }

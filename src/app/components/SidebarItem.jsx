@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-export const SidebarItem = ({ label, to, children, className }) => {
+export const SidebarItem = ({ label, to, children, className, closeSidebar }) => {
   const path = usePathname();
 
   const isActive = path === to;
@@ -14,6 +14,7 @@ export const SidebarItem = ({ label, to, children, className }) => {
         isActive && 'bg-primary text-primary-content'
       } ${className} ${!children && 'p-1 pl-2'}
       text-base-content transition-colors rounded-lg hover:bg-primary-focus hover:text-primary-content`}
+      onClick={closeSidebar}
     >
       {children && (
         <span

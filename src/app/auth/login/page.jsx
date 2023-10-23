@@ -1,6 +1,7 @@
 "use client";
 import { Alert } from "@/app/components/Alert";
 import ThemeToggle from "@/app/components/ThemeToggle";
+import { AuthRequiredError } from "@/app/lib/exceptions";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
@@ -24,49 +25,36 @@ const LoginPage = () => {
   const OnSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    const result = await axios
-      .post("/api/auth/login", {
+    try {
+      const result = await axios.post("/api/auth/login", {
         username: user.username,
         password: user.password,
       })
-      .then((response) => {
-        setIsLoading(false);
-
-        if (response.status == 200) {
-          setIsAlert(true);
-          setError({
-            isError: false,
-            message: "Inicio de sección",
-          });
-          router.push("/");
-        } else if (response.status == 401) {
-          setIsAlert(true);
-          setError({
-            isError: true,
-            message: "Usuaro o contraseña incorrecto",
-          });
-        } else {
-          setIsAlert(true);
-          setError({ isError: true, message: "Fallo de conexión" });
-        }
-      })
-      .catch((error) => {
-        setIsLoading(false);
-        const { response } = error;
-        if (response.status == 500) {
-          setIsAlert(true);
-          setError({ isError: true, message: "Fallo de conexión" });
-        }
+      setIsLoading(false);
+      setIsAlert(true);
+      setError({
+        isError: false,
+        message: "Inicio de sección",
       });
-    /*if (result.status == 200) {
       router.push("/");
-    }*/
+    } catch (error) {
+      setIsLoading(false);
+      const { response } = error;
+      if (response.status == 401) {
+        setIsAlert(true);
+        setError({ isError: true, message: "Usuaro o contraseña incorrecto" });
+      } else {
+        setIsAlert(true);
+        setError({ isError: true, message: "Fallo de conexión" });
+      }
+    }
   };
+  
   useEffect(() => {
     if (isAlert) {
       const timer = setTimeout(() => {
         setIsAlert(false);
-        setError({ isError: false, message: "" });
+        // setError({ isError: false, message: "" });
       }, 3000);
       return () => clearTimeout(timer);
     }
@@ -103,7 +91,7 @@ const LoginPage = () => {
                     className={`label-text ${
                       error.message.includes(
                         "Usuaro o contraseña incorrecto"
-                      ) && "text-error-content"
+                      ) && "text-error"
                     }`}
                   >
                     Usuario*
@@ -131,7 +119,7 @@ const LoginPage = () => {
                     className={`label-text ${
                       error.message.includes(
                         "Usuaro o contraseña incorrecto"
-                      ) && "text-error-content"
+                      ) && "text-error"
                     }`}
                   >
                     Contraseña*
